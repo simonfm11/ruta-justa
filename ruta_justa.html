@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Ruta Justa</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-oscuro: #1B3A2D;
+    --verde-medio: #2D5A40;
+    --dorado: #C8962A;
+    --crema: #F5F0E8;
+    --cafe: #8B6340;
+    --blanco: #FFFFFF;
+    --gris-claro: #E8E2D6;
+    --rojo-alerta: #E85A2A;
+    --negro: #0A0A0A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--negro);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* PHONE SHELL */
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: var(--crema);
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 0 0 2px rgba(255,255,255,0.1);
+  }
+
+  @media (max-width: 420px) {
+    body { background: var(--crema); align-items: flex-start; }
+    .phone { width: 100vw; height: 100vh; border-radius: 0; box-shadow: none; }
+  }
+
+  /* SCREENS */
+  .screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .screen.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .status-bar .time { font-size: 15px; font-weight: 700; }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
+  .status-icons span { font-size: 13px; }
+
+  /* OFFLINE BADGE */
+  .offline-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--verde-oscuro);
+    color: var(--crema);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+  .offline-dot {
+    width: 7px; height: 7px;
+    background: #4CAF50;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ==================== SCREEN 0: SPLASH ==================== */
+  #splash {
+    background: var(--verde-oscuro);
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+  .splash-logo {
+    text-align: center;
+  }
+  .splash-mountain {
+    font-size: 64px;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 4px 20px rgba(200,150,42,0.4));
+  }
+  .splash-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--crema);
+    line-height: 1;
+  }
+  .splash-title span { color: var(--dorado); }
+  .splash-sub {
+    font-size: 13px;
+    color: rgba(245,240,232,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .splash-btn {
+    background: var(--dorado);
+    color: var(--verde-oscuro);
+    border: none;
+    padding: 18px 48px;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 8px 30px rgba(200,150,42,0.4);
+  }
+  .splash-btn:active { transform: scale(0.96); }
+
+  /* ==================== SCREEN 1: MAPA ==================== */
+  #mapa { background: var(--crema); }
+  .mapa-header {
+    padding: 8px 20px 12px;
+    background: var(--crema);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mapa-canvas {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #2A3D2E;
+  }
+  .mapa-svg {
+    width: 100%;
+    height: 100%;
+  }
+  .mapa-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(10,10,10,0.85));
+  }
+  .ubicacion-actual {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .ubicacion-nombre {
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .ruta-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .ruta-btn {
+    border: none;
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    transition: transform 0.15s;
+  }
+  .ruta-btn:active { transform: scale(0.97); }
+  .btn-corta { background: var(--dorado); color: var(--verde-oscuro); }
+  .btn-suave { background: rgba(255,255,255,0.15); color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+  .ruta-btn .btn-icon { font-size: 20px; }
+
+  /* FATIGA INDICATOR */
+  .fatiga-pill {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--verde-oscuro);
+    color: var(--crema);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ==================== SCREEN 2: ELEGIR RUTA ==================== */
+  #elegir { background: var(--crema); }
+  .elegir-header {
+    background: var(--verde-oscuro);
+    color: var(--crema);
+    padding: 16px 20px 20px;
+  }
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--dorado);
+    font-size: 22px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .elegir-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  .elegir-sub { font-size: 13px; color: rgba(245,240,232,0.6); margin-top: 4px; }
+
+  .opciones-container {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+  .opcion-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+  }
+  .opcion-card:active { transform: scale(0.98); }
+  .opcion-card.seleccionada { border-color: var(--dorado); }
+
+  .opcion-header {
+    padding: 18px 20px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .opcion-tipo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .opcion-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .icon-corta { background: rgba(200,150,42,0.15); }
+  .icon-suave { background: rgba(27,58,45,0.1); }
+  .opcion-nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+  }
+  .opcion-desc { font-size: 12px; color: var(--cafe); margin-top: 2px; }
+  .opcion-tiempo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    text-align: right;
+  }
+  .opcion-tiempo span { font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--cafe); }
+
+  .opcion-stats {
+    padding: 0 20px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .stat-item {
+    background: var(--crema);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+  }
+  .stat-valor { font-size: 16px; font-weight: 700; color: var(--verde-oscuro); }
+  .stat-label { font-size: 10px; color: var(--cafe); margin-top: 2px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  .iniciar-btn {
+    margin: 0 20px 20px;
+    background: var(--verde-oscuro);
+    color: var(--crema);
+    border: none;
+    border-radius: 16px;
+    padding: 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    width: calc(100% - 40px);
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+  }
+  .iniciar-btn:active { background: var(--verde-medio); }
+
+  /* ==================== SCREEN 3: ESFUERZO ==================== */
+  #esfuerzo { background: var(--negro); }
+  .esfuerzo-header {
+    padding: 8px 20px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .esfuerzo-header .offline-badge { background: rgba(255,255,255,0.1); }
+  .menu-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
+
+  .esfuerzo-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 28px;
+  }
+
+  .nivel-circle {
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .nivel-circle.alto {
+    background: radial-gradient(circle, rgba(232,90,42,0.3), rgba(232,90,42,0.05));
+    border: 3px solid var(--rojo-alerta);
+    box-shadow: 0 0 60px rgba(232,90,42,0.3);
+    animation: alertPulse 1.5s infinite;
+  }
+  .nivel-circle.medio {
+    background: radial-gradient(circle, rgba(200,150,42,0.3), rgba(200,150,42,0.05));
+    border: 3px solid var(--dorado);
+    box-shadow: 0 0 40px rgba(200,150,42,0.2);
+  }
+  @keyframes alertPulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(232,90,42,0.3); }
+    50% { box-shadow: 0 0 80px rgba(232,90,42,0.6); }
+  }
+  .nivel-icon { font-size: 48px; margin-bottom: 6px; }
+  .nivel-texto {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--rojo-alerta);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .nivel-texto.dorado { color: var(--dorado); }
+
+  .alerta-msg {
+    text-align: center;
+    color: white;
+  }
+  .alerta-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .alerta-sub { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+  .metricas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+  .metrica-card {
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .metrica-valor {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+  }
+  .metrica-unit { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.5); }
+  .metrica-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .voz-btn-esfuerzo {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    color: white;
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ==================== SCREEN 4: ENTREGAS ==================== */
+  #entregas { background: var(--crema); }
+  .entregas-header {
+    background: var(--verde-oscuro);
+    padding: 8px 20px 20px;
+    color: var(--crema);
+  }
+  .entregas-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+  .entregas-sub { font-size: 13px; color: rgba(245,240,232,0.5); margin-top: 4px; }
+
+  .entregas-list {
+    flex: 1;
+    padding: 16px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .entrega-item {
+    background: white;
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: transform 0.15s;
+  }
+  .entrega-item:active { transform: scale(0.98); }
+  .entrega-num {
+    width: 36px; height: 36px;
+    background: var(--crema);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--verde-oscuro);
+    flex-shrink: 0;
+  }
+  .entrega-info { flex: 1; }
+  .entrega-nombre { font-weight: 700; font-size: 15px; color: var(--verde-oscuro); }
+  .entrega-terreno {
+    font-size: 11px;
+    color: var(--cafe);
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .terreno-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .tag-alto { background: rgba(232,90,42,0.12); color: var(--rojo-alerta); }
+  .tag-medio { background: rgba(200,150,42,0.12); color: var(--cafe); }
+  .tag-bajo { background: rgba(27,58,45,0.1); color: var(--verde-oscuro); }
+  .entrega-chevron { color: var(--gris-claro); font-size: 18px; }
+
+  .siguiente-btn {
+    margin: 0 20px 24px;
+    background: var(--dorado);
+    color: var(--verde-oscuro);
+    border: none;
+    border-radius: 16px;
+    padding: 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    width: calc(100% - 40px);
+    letter-spacing: 0.05em;
+  }
+
+  /* ==================== SCREEN 5: MODO VOZ ==================== */
+  #voz { background: var(--negro); }
+  .voz-header {
+    padding: 8px 20px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cerrar-btn { background: none; border: none; color: rgba(255,255,255,0.4); font-size: 26px; cursor: pointer; }
+
+  .voz-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    gap: 32px;
+  }
+
+  .mic-container {
+    position: relative;
+    width: 160px; height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mic-ring {
+    position: absolute;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(200,150,42,0.3);
+    animation: ringExpand 2s infinite;
+  }
+  .mic-ring:nth-child(2) { animation-delay: 0.5s; }
+  .mic-ring:nth-child(3) { animation-delay: 1s; }
+  @keyframes ringExpand {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+  .mic-btn {
+    width: 100px; height: 100px;
+    background: var(--dorado);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 8px 30px rgba(200,150,42,0.5);
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s;
+  }
+  .mic-btn:active { transform: scale(0.95); }
+
+  .voz-estado {
+    text-align: center;
+    color: white;
+  }
+  .voz-escuchando {
+    font-size: 13px;
+    color: var(--dorado);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+  }
+  .voz-instruccion {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .voz-hint { font-size: 13px; color: rgba(255,255,255,0.4); }
+
+  .comandos-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .comando-chip {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cmd-icon { font-size: 18px; }
+  .cmd-text em { color: var(--dorado); font-style: normal; font-weight: 600; }
+
+  /* ==================== SCREEN 6: OFFLINE ==================== */
+  #offline { background: var(--verde-oscuro); }
+  .offline-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px;
+    gap: 28px;
+    text-align: center;
+  }
+  .offline-check {
+    width: 120px; height: 120px;
+    background: rgba(245,240,232,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    border: 3px solid rgba(245,240,232,0.2);
+  }
+  .offline-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--crema);
+  }
+  .offline-titulo span { color: var(--dorado); }
+  .offline-desc {
+    font-size: 14px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.6;
+    max-width: 280px;
+  }
+
+  .offline-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+  .offline-stat {
+    background: rgba(245,240,232,0.08);
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid rgba(245,240,232,0.1);
+  }
+  .offline-stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--crema);
+  }
+  .offline-stat-label { font-size: 11px; color: rgba(245,240,232,0.4); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .manifiesto {
+    background: rgba(245,240,232,0.06);
+    border-radius: 16px;
+    padding: 18px;
+    border-left: 3px solid var(--dorado);
+    text-align: left;
+    width: 100%;
+  }
+  .manifiesto p {
+    font-size: 13px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .manifiesto cite {
+    display: block;
+    font-size: 11px;
+    color: var(--dorado);
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .iniciar-jornada-btn {
+    background: var(--dorado);
+    color: var(--verde-oscuro);
+    border: none;
+    border-radius: 16px;
+    padding: 18px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 0.05em;
+  }
+
+  /* NAV BAR */
+  .nav-bar {
+    display: flex;
+    background: white;
+    border-top: 1px solid var(--gris-claro);
+    padding: 8px 0 20px;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: opacity 0.2s;
+  }
+  .nav-item:active { opacity: 0.6; }
+  .nav-icon { font-size: 22px; }
+  .nav-label { font-size: 10px; font-weight: 600; color: var(--cafe); letter-spacing: 0.05em; text-transform: uppercase; }
+  .nav-item.active .nav-label { color: var(--verde-oscuro); }
+  .nav-item.active .nav-icon { filter: saturate(2); }
+
+  .nav-bar-dark {
+    display: flex;
+    background: rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 8px 0 20px;
+  }
+  .nav-bar-dark .nav-label { color: rgba(255,255,255,0.3); }
+  .nav-bar-dark .nav-item.active .nav-label { color: var(--dorado); }
+
+  /* TRANSITIONS */
+  .slide-in { animation: slideIn 0.35s ease forwards; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- SCREEN 0: SPLASH -->
+  <div class="screen active" id="splash">
+    <div class="splash-logo">
+      <div class="splash-mountain">⛰️</div>
+      <div class="splash-title">RUTA <span>JUSTA</span></div>
+      <div class="splash-sub">Tecnología que acompaña, no distrae</div>
+    </div>
+    <button class="splash-btn" onclick="goTo('mapa')">Comenzar jornada</button>
+  </div>
+
+  <!-- SCREEN 1: MAPA -->
+  <div class="screen" id="mapa">
+    <div class="status-bar" style="background:var(--crema); color:var(--verde-oscuro);">
+      <span class="time">9:31</span>
+      <div class="offline-badge"><div class="offline-dot"></div> Offline activo</div>
+      <div class="status-icons"><span>☰</span></div>
+    </div>
+    <div class="mapa-header">
+      <div style="font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--verde-oscuro);">Mapa de Ruta</div>
+      <div style="color:var(--cafe); font-size:13px;">Martes, 3 entregas</div>
+    </div>
+    <div class="mapa-canvas">
+      <!-- SVG MAP -->
+      <svg viewBox="0 0 390 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;position:absolute;top:0;left:0;">
+        <!-- Terrain background -->
+        <defs>
+          <radialGradient id="terrGrad" cx="50%" cy="40%">
+            <stop offset="0%" stop-color="#3D5A3E"/>
+            <stop offset="100%" stop-color="#1E3420"/>
+          </radialGradient>
+        </defs>
+        <rect width="390" height="480" fill="url(#terrGrad)"/>
+        <!-- Terrain patches -->
+        <ellipse cx="80" cy="120" rx="90" ry="70" fill="#2E4A30" opacity="0.6"/>
+        <ellipse cx="300" cy="80" rx="110" ry="85" fill="#253D27" opacity="0.7"/>
+        <ellipse cx="180" cy="300" rx="130" ry="90" fill="#2E4A30" opacity="0.5"/>
+        <ellipse cx="60" cy="380" rx="80" ry="60" fill="#253D27" opacity="0.6"/>
+        <ellipse cx="340" cy="350" rx="70" ry="90" fill="#2E4A30" opacity="0.5"/>
+        <!-- Trees -->
+        <text x="50" y="100" font-size="24" opacity="0.7">🌲</text>
+        <text x="290" y="70" font-size="28" opacity="0.7">🌲</text>
+        <text x="330" y="140" font-size="20" opacity="0.6">🌲</text>
+        <text x="100" y="200" font-size="22" opacity="0.6">🌲</text>
+        <text x="240" y="280" font-size="26" opacity="0.7">🌲</text>
+        <text x="30" y="320" font-size="20" opacity="0.6">🌲</text>
+        <text x="340" y="300" font-size="24" opacity="0.7">🌲</text>
+        <!-- RUTA SUAVE (dashed brown) -->
+        <path d="M195 420 Q230 380 260 340 Q300 290 310 240 Q320 180 280 130 Q250 90 210 60" 
+              stroke="#8B6340" stroke-width="4" fill="none" stroke-dasharray="10,6" opacity="0.6"/>
+        <!-- RUTA CORTA (green solid) -->
+        <path d="M195 420 Q170 370 160 310 Q155 250 175 190 Q195 130 210 60" 
+              stroke="#4CAF50" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <!-- Glow on ruta corta -->
+        <path d="M195 420 Q170 370 160 310 Q155 250 175 190 Q195 130 210 60" 
+              stroke="#4CAF50" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.15"/>
+        <!-- Location markers -->
+        <circle cx="195" cy="420" r="10" fill="#4CAF50" stroke="white" stroke-width="3"/>
+        <circle cx="210" cy="60" r="8" fill="var(--dorado,#C8962A)" stroke="white" stroke-width="2.5"/>
+        <circle cx="160" cy="310" r="7" fill="white" stroke="#4CAF50" stroke-width="2.5"/>
+        <circle cx="175" cy="190" r="7" fill="white" stroke="#4CAF50" stroke-width="2.5"/>
+        <!-- Labels -->
+        <rect x="70" y="295" width="80" height="22" rx="11" fill="rgba(0,0,0,0.5)"/>
+        <text x="110" y="310" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Casa Alta</text>
+        <rect x="70" y="175" width="96" height="22" rx="11" fill="rgba(0,0,0,0.5)"/>
+        <text x="118" y="190" text-anchor="middle" fill="white" font-size="10" font-family="sans-serif">Camino Barro</text>
+        <rect x="160" y="40" width="100" height="22" rx="11" fill="rgba(200,150,42,0.8)"/>
+        <text x="210" y="55" text-anchor="middle" fill="#1B3A2D" font-size="10" font-family="sans-serif" font-weight="bold">Atajo Posible</text>
+      </svg>
+      <div class="fatiga-pill">💪 Fatiga: 34%</div>
+      <div class="mapa-overlay">
+        <div class="ubicacion-actual">📍 Tu ubicación</div>
+        <div class="ubicacion-nombre">Vereda San Miguel</div>
+        <div class="ruta-btns">
+          <button class="ruta-btn btn-corta" onclick="goTo('elegir')">
+            <span class="btn-icon">⚡</span> Corta
+          </button>
+          <button class="ruta-btn btn-suave" onclick="goTo('elegir')">
+            <span class="btn-icon">🛡️</span> Suave
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="nav-bar">
+      <div class="nav-item active" onclick="goTo('mapa')"><div class="nav-icon">🗺️</div><div class="nav-label">Mapa</div></div>
+      <div class="nav-item" onclick="goTo('entregas')"><div class="nav-icon">📦</div><div class="nav-label">Entregas</div></div>
+      <div class="nav-item" onclick="goTo('esfuerzo')"><div class="nav-icon">💪</div><div class="nav-label">Cuerpo</div></div>
+      <div class="nav-item" onclick="goTo('offline')"><div class="nav-icon">📡</div><div class="nav-label">Estado</div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: ELEGIR RUTA -->
+  <div class="screen" id="elegir">
+    <div class="status-bar" style="background:var(--verde-oscuro); color:var(--crema);">
+      <span class="time">9:31</span>
+      <div class="offline-badge"><div class="offline-dot"></div> Offline activo</div>
+      <div class="status-icons" style="color:var(--crema)"><span>···</span></div>
+    </div>
+    <div class="elegir-header">
+      <button class="back-btn" onclick="goTo('mapa')">← </button>
+      <div class="elegir-title">Elige tu ruta</div>
+      <div class="elegir-sub">Tú decides: más corta o menos esfuerzo</div>
+    </div>
+    <div class="opciones-container">
+      <div class="opcion-card seleccionada" onclick="selectRuta(this)">
+        <div class="opcion-header">
+          <div class="opcion-tipo">
+            <div class="opcion-icon icon-corta">⚡</div>
+            <div>
+              <div class="opcion-nombre">Corta</div>
+              <div class="opcion-desc">Menos distancia · Alta pendiente</div>
+            </div>
+          </div>
+          <div class="opcion-tiempo">12 <span>min</span></div>
+        </div>
+        <div class="opcion-stats">
+          <div class="stat-item"><div class="stat-valor">1.4km</div><div class="stat-label">Distancia</div></div>
+          <div class="stat-item"><div class="stat-valor" style="color:var(--rojo-alerta)">Alto</div><div class="stat-label">Esfuerzo</div></div>
+          <div class="stat-item"><div class="stat-valor">380cal</div><div class="stat-label">Calorías</div></div>
+        </div>
+      </div>
+
+      <div class="opcion-card" onclick="selectRuta(this)">
+        <div class="opcion-header">
+          <div class="opcion-tipo">
+            <div class="opcion-icon icon-suave">🛡️</div>
+            <div>
+              <div class="opcion-nombre">Suave</div>
+              <div class="opcion-desc">Más distancia · Menos esfuerzo</div>
+            </div>
+          </div>
+          <div class="opcion-tiempo">18 <span>min</span></div>
+        </div>
+        <div class="opcion-stats">
+          <div class="stat-item"><div class="stat-valor">2.1km</div><div class="stat-label">Distancia</div></div>
+          <div class="stat-item"><div class="stat-valor" style="color:var(--dorado)">Medio</div><div class="stat-label">Esfuerzo</div></div>
+          <div class="stat-item"><div class="stat-valor">210cal</div><div class="stat-label">Calorías</div></div>
+        </div>
+      </div>
+    </div>
+    <button class="iniciar-btn" onclick="goTo('esfuerzo')">Iniciar ruta →</button>
+  </div>
+
+  <!-- SCREEN 3: ESFUERZO -->
+  <div class="screen" id="esfuerzo">
+    <div class="status-bar" style="background:var(--negro); color:white;">
+      <span class="time">9:31</span>
+      <div class="offline-badge" style="background:rgba(255,255,255,0.1)"><div class="offline-dot"></div> Offline activo</div>
+      <button class="menu-btn">☰</button>
+    </div>
+    <div class="esfuerzo-body">
+      <div class="nivel-circle alto">
+        <div class="nivel-icon">🏃</div>
+        <div class="nivel-texto">Alto esfuerzo</div>
+      </div>
+      <div class="alerta-msg">
+        <div class="alerta-titulo">Recomendado descansar pronto</div>
+        <div class="alerta-sub">Llevas 340m de pendiente continua.<br>Tu cuerpo necesita una pausa.</div>
+      </div>
+      <div class="metricas-grid">
+        <div class="metrica-card">
+          <div class="metrica-valor">84 <span class="metrica-unit">bpm</span></div>
+          <div class="metrica-label">Ritmo cardiaco</div>
+        </div>
+        <div class="metrica-card">
+          <div class="metrica-valor">340 <span class="metrica-unit">cal</span></div>
+          <div class="metrica-label">Consumo</div>
+        </div>
+        <div class="metrica-card">
+          <div class="metrica-valor">78 <span class="metrica-unit">%</span></div>
+          <div class="metrica-label">Fatiga lumbar</div>
+        </div>
+        <div class="metrica-card">
+          <div class="metrica-valor">1.2 <span class="metrica-unit">km</span></div>
+          <div class="metrica-label">Recorrido</div>
+        </div>
+      </div>
+      <button class="voz-btn-esfuerzo" onclick="goTo('voz')">🎙️ &nbsp; Modo voz</button>
+    </div>
+    <div class="nav-bar-dark nav-bar">
+      <div class="nav-item" onclick="goTo('mapa')"><div class="nav-icon">🗺️</div><div class="nav-label">Mapa</div></div>
+      <div class="nav-item" onclick="goTo('entregas')"><div class="nav-icon">📦</div><div class="nav-label">Entregas</div></div>
+      <div class="nav-item active"><div class="nav-icon">💪</div><div class="nav-label">Cuerpo</div></div>
+      <div class="nav-item" onclick="goTo('offline')"><div class="nav-icon">📡</div><div class="nav-label">Estado</div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: ENTREGAS -->
+  <div class="screen" id="entregas">
+    <div class="status-bar" style="background:var(--verde-oscuro); color:var(--crema);">
+      <span class="time">9:31</span>
+      <div class="offline-badge"><div class="offline-dot"></div> Offline activo</div>
+      <div class="status-icons" style="color:var(--crema)"><span>···</span></div>
+    </div>
+    <div class="entregas-header">
+      <div class="entregas-title">Entregas</div>
+      <div class="entregas-sub">3 pendientes · Optimizadas por esfuerzo</div>
+    </div>
+    <div class="entregas-list">
+      <div class="entrega-item" onclick="goTo('elegir')">
+        <div class="entrega-num">1</div>
+        <div class="entrega-info">
+          <div class="entrega-nombre">Casa Alta — Sra. Carmen</div>
+          <div class="entrega-terreno">
+            <span class="terreno-tag tag-alto">Pendiente alta</span>
+            &nbsp;· 380m subida
+          </div>
+        </div>
+        <div class="entrega-chevron">›</div>
+      </div>
+      <div class="entrega-item" onclick="goTo('elegir')">
+        <div class="entrega-num">2</div>
+        <div class="entrega-info">
+          <div class="entrega-nombre">Camino del Barro — Sr. Luis</div>
+          <div class="entrega-terreno">
+            <span class="terreno-tag tag-medio">Terreno resbaloso</span>
+            &nbsp;· 210m plano
+          </div>
+        </div>
+        <div class="entrega-chevron">›</div>
+      </div>
+      <div class="entrega-item" onclick="goTo('elegir')">
+        <div class="entrega-num">3</div>
+        <div class="entrega-info">
+          <div class="entrega-nombre">Atajo Posible — Finca El Cedro</div>
+          <div class="entrega-terreno">
+            <span class="terreno-tag tag-bajo">Menos distancia</span>
+            &nbsp;· 120m bajada
+          </div>
+        </div>
+        <div class="entrega-chevron">›</div>
+      </div>
+    </div>
+    <button class="siguiente-btn" onclick="goTo('elegir')">Siguiente entrega →</button>
+    <div class="nav-bar">
+      <div class="nav-item" onclick="goTo('mapa')"><div class="nav-icon">🗺️</div><div class="nav-label">Mapa</div></div>
+      <div class="nav-item active"><div class="nav-icon">📦</div><div class="nav-label">Entregas</div></div>
+      <div class="nav-item" onclick="goTo('esfuerzo')"><div class="nav-icon">💪</div><div class="nav-label">Cuerpo</div></div>
+      <div class="nav-item" onclick="goTo('offline')"><div class="nav-icon">📡</div><div class="nav-label">Estado</div></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: MODO VOZ -->
+  <div class="screen" id="voz">
+    <div class="status-bar" style="background:var(--negro); color:white;">
+      <span class="time">9:31</span>
+      <div class="offline-badge" style="background:rgba(255,255,255,0.1)"><div class="offline-dot"></div> Offline activo</div>
+      <button class="cerrar-btn" onclick="goTo('esfuerzo')">✕</button>
+    </div>
+    <div class="voz-body">
+      <div class="mic-container">
+        <div class="mic-ring"></div>
+        <div class="mic-ring"></div>
+        <div class="mic-ring"></div>
+        <button class="mic-btn" onclick="toggleEscucha(this)">🎙️</button>
+      </div>
+      <div class="voz-estado">
+        <div class="voz-escuchando">
+          <div class="offline-dot"></div> Escuchando...
+        </div>
+        <div class="voz-instruccion">Habla, la app te entiende</div>
+        <div class="voz-hint">Manos libres · Sin conexión</div>
+      </div>
+      <div class="comandos-list">
+        <div class="comando-chip"><span class="cmd-icon">📦</span><span class="cmd-text">Di <em>"Siguiente entrega"</em></span></div>
+        <div class="comando-chip"><span class="cmd-icon">⚡</span><span class="cmd-text">Di <em>"Ruta corta"</em></span></div>
+        <div class="comando-chip"><span class="cmd-icon">🛡️</span><span class="cmd-text">Di <em>"Ruta suave"</em></span></div>
+        <div class="comando-chip"><span class="cmd-icon">⏸️</span><span class="cmd-text">Di <em>"Pausar"</em></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: ESTADO OFFLINE -->
+  <div class="screen" id="offline">
+    <div class="status-bar" style="background:var(--verde-oscuro); color:var(--crema);">
+      <span class="time">9:31</span>
+      <div class="offline-badge"><div class="offline-dot"></div> Offline activo</div>
+      <div class="status-icons" style="color:var(--crema)"><span>···</span></div>
+    </div>
+    <div class="offline-body">
+      <div class="offline-check">✅</div>
+      <div>
+        <div class="offline-titulo">Todo <span>listo</span></div>
+        <p style="color:rgba(245,240,232,0.6); font-size:14px; margin-top:8px;">Sin señal, pero seguimos trabajando.</p>
+      </div>
+      <div class="offline-stats">
+        <div class="offline-stat"><div class="offline-stat-val">3</div><div class="offline-stat-label">Rutas guardadas</div></div>
+        <div class="offline-stat"><div class="offline-stat-val">100%</div><div class="offline-stat-label">Mapas descarg.</div></div>
+        <div class="offline-stat"><div class="offline-stat-val">0</div><div class="offline-stat-label">Señal (sin red)</div></div>
+        <div class="offline-stat"><div class="offline-stat-val">4.2h</div><div class="offline-stat-label">Batería est.</div></div>
+      </div>
+      <div class="manifiesto">
+        <p>"No guía caminos. Acompaña decisiones en territorios donde equivocarse cuesta el cuerpo."</p>
+        <cite>— Manifiesto Ruta Justa</cite>
+      </div>
+      <button class="iniciar-jornada-btn" onclick="goTo('mapa')">Ir al mapa →</button>
+    </div>
+    <div class="nav-bar" style="background:rgba(245,240,232,0.05); border-top-color:rgba(245,240,232,0.1);">
+      <div class="nav-item" onclick="goTo('mapa')"><div class="nav-icon">🗺️</div><div class="nav-label" style="color:rgba(245,240,232,0.4)">Mapa</div></div>
+      <div class="nav-item" onclick="goTo('entregas')"><div class="nav-icon">📦</div><div class="nav-label" style="color:rgba(245,240,232,0.4)">Entregas</div></div>
+      <div class="nav-item" onclick="goTo('esfuerzo')"><div class="nav-icon">💪</div><div class="nav-label" style="color:rgba(245,240,232,0.4)">Cuerpo</div></div>
+      <div class="nav-item active"><div class="nav-icon">📡</div><div class="nav-label" style="color:var(--dorado)">Estado</div></div>
+    </div>
+  </div>
+
+</div><!-- /phone -->
+
+<script>
+  function goTo(screenId) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.remove('active');
+      s.style.display = 'none';
+    });
+    const target = document.getElementById(screenId);
+    target.style.display = 'flex';
+    requestAnimationFrame(() => {
+      target.classList.add('active');
+      target.classList.add('slide-in');
+      setTimeout(() => target.classList.remove('slide-in'), 400);
+    });
+  }
+
+  function selectRuta(card) {
+    document.querySelectorAll('.opcion-card').forEach(c => c.classList.remove('seleccionada'));
+    card.classList.add('seleccionada');
+  }
+
+  function toggleEscucha(btn) {
+    const isActive = btn.style.background === 'var(--verde-oscuro)' || btn.dataset.active === '1';
+    if (!isActive) {
+      btn.textContent = '⏹️';
+      btn.style.background = 'var(--rojo-alerta)';
+      btn.dataset.active = '1';
+    } else {
+      btn.textContent = '🎙️';
+      btn.style.background = 'var(--dorado)';
+      btn.dataset.active = '0';
+    }
+  }
+
+  // Init first screen
+  document.getElementById('splash').style.display = 'flex';
+</script>
+</body>
+</html>
