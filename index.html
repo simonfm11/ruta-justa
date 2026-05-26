@@ -3,23 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>RutaJusta</title>
+<title>RutaJusta IA Ultimate</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
-  --verde:#143D32;
-  --verde2:#1F5A4B;
+  --verde:#10382D;
+  --verde2:#1A5A48;
+  --verde3:#2F7D68;
   --dorado:#D4A537;
   --crema:#F5F1EB;
-  --gris:#ECE7DF;
-  --negro:#101010;
+  --gris:#E8E3DB;
+  --texto:#222;
   --rojo:#F05A28;
-  --verdeok:#1BC276;
-  --shadow:0 10px 35px rgba(0,0,0,.12);
+  --verdeok:#1CC477;
+  --negro:#101010;
+
+  --shadow:
+    0 10px 30px rgba(0,0,0,.12);
 }
 
 *{
@@ -36,16 +39,31 @@ body{
   justify-content:center;
   align-items:center;
   min-height:100vh;
+  overflow:hidden;
 }
 
 .phone{
   width:390px;
   height:844px;
   background:var(--crema);
-  border-radius:40px;
+  border-radius:42px;
   overflow:hidden;
   position:relative;
-  box-shadow:0 30px 90px rgba(0,0,0,.5);
+  box-shadow:0 30px 100px rgba(0,0,0,.5);
+}
+
+@media(max-width:420px){
+
+  body{
+    background:var(--crema);
+  }
+
+  .phone{
+    width:100vw;
+    height:100vh;
+    border-radius:0;
+  }
+
 }
 
 .screen{
@@ -54,6 +72,7 @@ body{
   display:none;
   flex-direction:column;
   background:var(--crema);
+  overflow:hidden;
 }
 
 .screen.active{
@@ -61,56 +80,101 @@ body{
 }
 
 .header{
-  background:linear-gradient(135deg,var(--verde),#0B241D);
+  background:
+    linear-gradient(
+      135deg,
+      var(--verde),
+      #081F18
+    );
+
   color:white;
-  padding:55px 20px 24px;
+
+  padding:55px 20px 22px;
 }
 
 .top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:25px;
+  margin-bottom:22px;
 }
 
 .logo{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:14px;
 }
 
-.logo h1{
+.logo span{
   font-family:'Playfair Display',serif;
   font-size:30px;
 }
 
-.icon-btn{
-  cursor:pointer;
+.hamburger{
   font-size:24px;
+  cursor:pointer;
 }
 
 .status{
-  background:rgba(255,255,255,.1);
-  padding:8px 14px;
-  border-radius:20px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  background:rgba(255,255,255,.08);
+
+  padding:10px 14px;
+
+  border-radius:30px;
+
   font-size:12px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#4ADE80;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    opacity:.4;
+  }
+}
+
+.title{
+  font-family:'Playfair Display',serif;
+  font-size:40px;
+  line-height:1;
+}
+
+.subtitle{
+  margin-top:10px;
+  opacity:.7;
+  font-size:14px;
 }
 
 .content{
   flex:1;
   overflow:auto;
-  padding:18px;
+  padding:18px 18px 120px;
+}
+
+.content::-webkit-scrollbar{
+  width:0;
 }
 
 .card{
   background:white;
-  border-radius:24px;
-  padding:18px;
+  border-radius:28px;
+  padding:20px;
   margin-bottom:16px;
   box-shadow:var(--shadow);
   cursor:pointer;
-  transition:.25s;
   border:2px solid transparent;
+  transition:.25s;
+  position:relative;
 }
 
 .card:hover{
@@ -121,15 +185,56 @@ body{
   border-color:var(--dorado);
 }
 
+.check{
+  position:absolute;
+  right:18px;
+  top:18px;
+
+  width:28px;
+  height:28px;
+
+  border-radius:50%;
+
+  border:2px solid var(--verde2);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  color:white;
+}
+
+.card.active .check{
+  background:var(--verde2);
+}
+
 .route-top{
   display:flex;
   justify-content:space-between;
+  align-items:flex-start;
+}
+
+.route-left{
+  display:flex;
+  gap:14px;
+}
+
+.route-icon{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:#EEF7F3;
+
+  display:flex;
+  justify-content:center;
   align-items:center;
+
+  font-size:28px;
 }
 
 .route-name{
   font-family:'Playfair Display',serif;
-  font-size:28px;
+  font-size:30px;
   color:var(--verde);
 }
 
@@ -143,7 +248,7 @@ body{
 }
 
 .time strong{
-  font-size:32px;
+  font-size:34px;
   color:var(--verde);
 }
 
@@ -156,43 +261,33 @@ body{
 
 .stat{
   background:var(--gris);
-  border-radius:14px;
+  border-radius:16px;
   padding:12px;
   text-align:center;
 }
 
 .stat strong{
   display:block;
+  margin-bottom:4px;
   color:var(--verde);
 }
 
-.bottom-nav{
-  display:flex;
-  justify-content:space-around;
-  padding:12px 0 22px;
-  background:white;
-  border-top:1px solid #DDD;
+.red{
+  color:var(--rojo)!important;
 }
 
-.nav-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  font-size:11px;
-  cursor:pointer;
-  color:#666;
+.yellow{
+  color:#C98A00!important;
 }
 
-.nav-item.active{
-  color:var(--verde);
-  font-weight:700;
+.green{
+  color:var(--verdeok)!important;
 }
 
-.map{
+.map-container{
   flex:1;
   position:relative;
-  background:#22392E;
+  background:#264134;
 }
 
 svg{
@@ -202,84 +297,243 @@ svg{
 
 .map-point{
   cursor:pointer;
-  transition:.2s;
+  transition:.25s;
 }
 
 .map-point:hover{
   transform:scale(1.2);
 }
 
-.toast{
+.overlay-map{
   position:absolute;
-  bottom:120px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#111;
-  color:white;
-  padding:14px 18px;
-  border-radius:16px;
-  opacity:0;
-  transition:.3s;
-  z-index:999;
+  left:0;
+  right:0;
+  bottom:0;
+
+  padding:20px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0,0,0,.82)
+    );
 }
 
-.toast.show{
-  opacity:1;
-}
-
-.floating{
-  position:absolute;
-  right:20px;
-  bottom:120px;
-  width:65px;
-  height:65px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#FF6A3D,#F44336);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:30px;
-  cursor:pointer;
-  box-shadow:0 10px 25px rgba(255,80,50,.4);
+.route-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:16px;
 }
 
 .btn{
   border:none;
   padding:16px;
   border-radius:18px;
-  font-weight:700;
   cursor:pointer;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn:active{
+  transform:scale(.97);
 }
 
 .primary{
-  background:linear-gradient(135deg,var(--dorado),#E8C35A);
+  background:
+    linear-gradient(
+      135deg,
+      var(--dorado),
+      #E7C15A
+    );
+
+  color:black;
 }
 
 .secondary{
-  background:var(--verde);
+  background:rgba(255,255,255,.12);
   color:white;
+  border:1px solid rgba(255,255,255,.12);
 }
 
-.panel{
+.bottom-nav{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+
   background:white;
-  border-radius:22px;
-  padding:18px;
-  margin-top:16px;
-  box-shadow:var(--shadow);
+
+  border-top:1px solid #DDD;
+
+  display:flex;
+  justify-content:space-around;
+
+  padding:12px 0 20px;
+
+  z-index:50;
 }
 
-.voice-circle{
-  width:120px;
-  height:120px;
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  cursor:pointer;
+  color:#777;
+  font-size:11px;
+}
+
+.nav-item.active{
+  color:var(--verde);
+  font-weight:700;
+}
+
+.sidebar{
+  position:absolute;
+  top:0;
+  left:-320px;
+
+  width:300px;
+  height:100%;
+
+  background:white;
+
+  z-index:999;
+
+  transition:.35s;
+
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+  padding:22px;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:998;
+}
+
+.overlay.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:30px;
+}
+
+.avatar{
+  width:60px;
+  height:60px;
   border-radius:50%;
-  background:var(--dorado);
+  background:var(--verde);
+
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:50px;
-  margin:30px auto;
+
+  color:white;
+  font-size:28px;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.menu-item{
+  background:var(--crema);
+  padding:16px;
+  border-radius:18px;
   cursor:pointer;
+  font-weight:600;
+  transition:.2s;
+}
+
+.menu-item:hover{
+  transform:translateX(5px);
+}
+
+.toast{
+  position:absolute;
+  left:50%;
+  bottom:120px;
+  transform:translateX(-50%);
+  background:#111;
+  color:white;
+  padding:14px 18px;
+  border-radius:18px;
+  opacity:0;
+  transition:.3s;
+  z-index:9999;
+}
+
+.toast.show{
+  opacity:1;
+  bottom:140px;
+}
+
+.floating{
+  position:absolute;
+  right:18px;
+  bottom:110px;
+
+  width:66px;
+  height:66px;
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #FF6A3D,
+      #F44336
+    );
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  color:white;
+  font-size:30px;
+
+  cursor:pointer;
+
+  z-index:60;
+
+  box-shadow:
+    0 10px 30px rgba(255,80,50,.45);
+}
+
+.voice-circle{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:var(--dorado);
+
+  margin:30px auto;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:60px;
+
+  cursor:pointer;
+
   transition:.3s;
 }
 
@@ -292,301 +546,257 @@ svg{
   text-align:center;
 }
 
+.metric-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:25px;
+}
+
+.metric{
+  background:#181818;
+  color:white;
+  padding:18px;
+  border-radius:18px;
+}
+
+.metric strong{
+  font-size:30px;
+  display:block;
+}
+
+.back-btn{
+  cursor:pointer;
+  font-size:24px;
+  margin-bottom:15px;
+}
+
 .dark{
-  filter:invert(.92) hue-rotate(180deg);
+  filter:invert(.93) hue-rotate(180deg);
 }
 
 </style>
 </head>
+
 <body>
 
 <div class="phone">
 
-  <!-- MAPA -->
-  <div class="screen active" id="mapa">
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <div class="header">
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
 
-      <div class="top">
+  <div class="profile">
 
-        <div class="logo">
-          <div class="icon-btn" onclick="toggleTheme()">☰</div>
-          <h1>RutaJusta</h1>
-        </div>
+    <div class="avatar">
+      🚴
+    </div>
 
-        <div class="status">
-          ● Offline activo
-        </div>
+    <div>
+      <strong style="color:var(--verde)">
+        Juan Camilo
+      </strong>
 
-      </div>
-
-      <h2 style="font-family:'Playfair Display',serif;font-size:40px">
-        Mapa 
-      </h2>
-
-      <p style="opacity:.7;margin-top:8px">
-        Navegación adaptativa inteligente
+      <p style="font-size:12px;color:#666">
+        Estado físico estable
       </p>
-
-    </div>
-
-    <div class="map">
-
-      <svg viewBox="0 0 390 500">
-
-        <rect width="390" height="500" fill="#284434"/>
-
-        <path
-          d="M190 440 Q170 320 210 60"
-          stroke="#4ADE80"
-          stroke-width="6"
-          fill="none"
-          stroke-linecap="round"
-        />
-
-        <circle
-          class="map-point"
-          cx="190"
-          cy="440"
-          r="10"
-          fill="#4ADE80"
-          onclick="pointAction('Inicio de ruta')"
-        />
-
-        <circle
-          class="map-point"
-          cx="175"
-          cy="300"
-          r="9"
-          fill="#FFF"
-          stroke="#4ADE80"
-          stroke-width="3"
-          onclick="pointAction('Punto de descanso')"
-        />
-
-        <circle
-          class="map-point"
-          cx="210"
-          cy="60"
-          r="10"
-          fill="#D4A537"
-          onclick="pointAction('Entrega principal')"
-        />
-
-      </svg>
-
-      <div style="position:absolute;bottom:20px;left:20px;right:20px">
-
-        <div class="panel">
-
-          <div style="display:flex;justify-content:space-between;align-items:center">
-
-            <div>
-              <div class="route-name">
-                Ruta Corta
-              </div>
-
-              <div class="route-desc">
-                Menos distancia · Mayor pendiente
-              </div>
-            </div>
-
-            <div class="time">
-              <strong>12</strong><br>
-              <span>min</span>
-            </div>
-
-          </div>
-
-          <div class="stats">
-
-            <div class="stat">
-              <strong>1.4km</strong>
-              <small>Distancia</small>
-            </div>
-
-            <div class="stat">
-              <strong style="color:var(--rojo)">Alta</strong>
-              <small>Fatiga</small>
-            </div>
-
-            <div class="stat">
-              <strong>380cal</strong>
-              <small>Consumo</small>
-            </div>
-
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
-
-            <button class="btn primary" onclick="goTo('rutas')">
-              Ver rutas
-            </button>
-
-            <button class="btn secondary" onclick="startRoute()">
-              Iniciar
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="bottom-nav">
-
-      <div class="nav-item active" onclick="goTo('mapa')">
-        🗺️
-        <span>Mapa</span>
-      </div>
-
-      <div class="nav-item" onclick="goTo('rutas')">
-        ⚡
-        <span>Rutas</span>
-      </div>
-
-      <div class="nav-item" onclick="goTo('esfuerzo')">
-        💪
-        <span>Cuerpo</span>
-      </div>
-
-      <div class="nav-item" onclick="goTo('voz')">
-        🎙️
-        <span>Voz</span>
-      </div>
-
     </div>
 
   </div>
 
-  <!-- RUTAS -->
-  <div class="screen" id="rutas">
+  <div class="menu">
 
-    <div class="header">
-      <h2 style="font-family:'Playfair Display',serif;font-size:38px">
-        Elegir ruta
-      </h2>
+    <div class="menu-item" onclick="showToast('Historial cargado')">
+      🗺️ Historial de rutas
     </div>
 
-    <div class="content">
+    <div class="menu-item" onclick="goTo('routes')">
+      ⚡ Ver rutas
+    </div>
 
-      <div class="card active" onclick="selectCard(this,'Corta')">
+    <div class="menu-item" onclick="goTo('effort')">
+      💪 Estado físico
+    </div>
 
-        <div class="route-top">
-          <div>
-            <div class="route-name">⚡ Corta</div>
-            <div class="route-desc">Mayor esfuerzo</div>
-          </div>
+    <div class="menu-item" onclick="goTo('voice')">
+      🎙️ Asistente voz
+    </div>
 
-          <div class="time">
-            <strong>12</strong>
-            <span>min</span>
-          </div>
-        </div>
+    <div class="menu-item" onclick="toggleTheme()">
+      🌙 Cambiar tema
+    </div>
 
-      </div>
-
-      <div class="card" onclick="selectCard(this,'Suave')">
-
-        <div class="route-top">
-          <div>
-            <div class="route-name">🛡️ Suave</div>
-            <div class="route-desc">Menor desgaste</div>
-          </div>
-
-          <div class="time">
-            <strong>18</strong>
-            <span>min</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="card" onclick="selectCard(this,'Media')">
-
-        <div class="route-top">
-          <div>
-            <div class="route-name">🍃 Media</div>
-            <div class="route-desc">Balanceada</div>
-          </div>
-
-          <div class="time">
-            <strong>22</strong>
-            <span>min</span>
-          </div>
-        </div>
-
-      </div>
-
-      <button class="btn primary" style="width:100%" onclick="startRoute()">
-        Confirmar ruta
-      </button>
-
+    <div class="menu-item" onclick="showToast('Modo offline activo')">
+      📡 Offline
     </div>
 
   </div>
 
-  <!-- ESFUERZO -->
-  <div class="screen" id="esfuerzo">
+</div>
 
-    <div class="header">
-      <h2 style="font-family:'Playfair Display',serif;font-size:38px">
-        Estado físico
-      </h2>
+<!-- MAP SCREEN -->
+<div class="screen active" id="map">
+
+  <div class="header">
+
+    <div class="top">
+
+      <div class="logo">
+
+        <div class="hamburger" onclick="toggleSidebar()">
+          ☰
+        </div>
+
+        <span>RutaJusta</span>
+
+      </div>
+
+      <div class="status">
+
+        <div class="dot"></div>
+
+        Offline activo
+
+      </div>
+
     </div>
 
-    <div class="content center">
+    <div class="title">
+      Mapa IA
+    </div>
 
-      <div class="voice-circle" onclick="simulateFatigue()">
-        💪
-      </div>
-
-      <h2>Fatiga actual</h2>
-
-      <div
-        id="fatigue"
-        style="font-size:64px;font-weight:700;color:var(--rojo);margin:20px 0"
-      >
-        34%
-      </div>
-
-      <button class="btn secondary" onclick="recover()">
-        Recuperar energía
-      </button>
-
+    <div class="subtitle">
+      Navegación inteligente adaptativa
     </div>
 
   </div>
 
-  <!-- VOZ -->
-  <div class="screen" id="voz">
+  <div class="map-container">
 
-    <div class="header">
-      <h2 style="font-family:'Playfair Display',serif;font-size:38px">
-        Asistente voz
-      </h2>
-    </div>
+    <svg viewBox="0 0 390 520">
 
-    <div class="content center">
+      <defs>
 
-      <div
-        class="voice-circle"
-        id="voiceBtn"
-        onclick="toggleVoice()"
-      >
-        🎙️
+        <radialGradient id="terrain">
+
+          <stop offset="0%" stop-color="#3F654B"/>
+          <stop offset="100%" stop-color="#223A2D"/>
+
+        </radialGradient>
+
+      </defs>
+
+      <rect width="390" height="520" fill="url(#terrain)"/>
+
+      <text x="60" y="120" font-size="28">🌲</text>
+      <text x="300" y="160" font-size="24">🌲</text>
+      <text x="120" y="280" font-size="22">🌲</text>
+      <text x="320" y="340" font-size="26">🌲</text>
+
+      <!-- rutas -->
+
+      <path
+        d="M190 450 Q170 360 180 250 Q200 140 220 60"
+        stroke="#4ADE80"
+        stroke-width="6"
+        fill="none"
+        stroke-linecap="round"
+      />
+
+      <path
+        d="M190 450 Q250 360 280 260 Q300 150 250 80"
+        stroke="#D4A537"
+        stroke-width="5"
+        stroke-dasharray="12 8"
+        fill="none"
+      />
+
+      <!-- puntos -->
+
+      <circle
+        class="map-point"
+        cx="190"
+        cy="450"
+        r="11"
+        fill="#4ADE80"
+        stroke="white"
+        stroke-width="3"
+        onclick="pointAction('Inicio de ruta')"
+      />
+
+      <circle
+        class="map-point"
+        cx="180"
+        cy="250"
+        r="9"
+        fill="white"
+        stroke="#4ADE80"
+        stroke-width="3"
+        onclick="pointAction('Zona de descanso')"
+      />
+
+      <circle
+        class="map-point"
+        cx="220"
+        cy="60"
+        r="10"
+        fill="#D4A537"
+        stroke="white"
+        stroke-width="3"
+        onclick="pointAction('Entrega principal')"
+      />
+
+      <circle
+        class="map-point"
+        cx="280"
+        cy="260"
+        r="9"
+        fill="#F05A28"
+        stroke="white"
+        stroke-width="3"
+        onclick="pointAction('Terreno peligroso')"
+      />
+
+    </svg>
+
+    <div class="overlay-map">
+
+      <div style="color:white">
+
+        <div style="opacity:.6;font-size:12px">
+          📍 Tu ubicación
+        </div>
+
+        <div
+          style="
+            font-family:'Playfair Display',serif;
+            font-size:26px;
+            margin-top:6px;
+          "
+        >
+          Vereda San Miguel
+        </div>
+
       </div>
 
-      <h2 id="voiceText">
-        Modo escucha inactivo
-      </h2>
+      <div class="route-buttons">
 
-      <div style="margin-top:30px">
+        <button
+          class="btn primary"
+          onclick="goTo('routes')">
 
-        <button class="btn primary" onclick="speak('Ruta iniciada')">
-          Probar voz
+          ⚡ Ver rutas
+
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="startRoute()">
+
+          ▶ Iniciar
+
         </button>
 
       </div>
@@ -595,47 +805,542 @@ svg{
 
   </div>
 
-  <!-- FLOAT -->
-  <div class="floating" onclick="emergency()">
-    🚨
+</div>
+
+<!-- ROUTES -->
+<div class="screen" id="routes">
+
+  <div class="header">
+
+    <div class="back-btn" onclick="goTo('map')">
+      ←
+    </div>
+
+    <div class="title">
+      Elige ruta
+    </div>
+
+    <div class="subtitle">
+      IA basada en desgaste físico
+    </div>
+
   </div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">
-    Mensaje
+  <div class="content">
+
+    <!-- CORTA -->
+
+    <div class="card active" onclick="selectRoute(this,'Ruta Corta')">
+
+      <div class="check">
+        ✓
+      </div>
+
+      <div class="route-top">
+
+        <div class="route-left">
+
+          <div class="route-icon">
+            ⚡
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Corta
+            </div>
+
+            <div class="route-desc">
+              Alta pendiente · Menor distancia
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+
+          <strong>12</strong>
+          <span>min</span>
+
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>1.4km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="red">Alta</strong>
+          <small>Fatiga</small>
+        </div>
+
+        <div class="stat">
+          <strong>380cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- SUAVE -->
+
+    <div class="card" onclick="selectRoute(this,'Ruta Suave')">
+
+      <div class="check"></div>
+
+      <div class="route-top">
+
+        <div class="route-left">
+
+          <div class="route-icon">
+            🛡️
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Suave
+            </div>
+
+            <div class="route-desc">
+              Menor desgaste físico
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+
+          <strong>18</strong>
+          <span>min</span>
+
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>2.1km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="green">Baja</strong>
+          <small>Fatiga</small>
+        </div>
+
+        <div class="stat">
+          <strong>220cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MEDIA -->
+
+    <div class="card" onclick="selectRoute(this,'Ruta Media')">
+
+      <div class="check"></div>
+
+      <div class="route-top">
+
+        <div class="route-left">
+
+          <div class="route-icon">
+            🍃
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Media
+            </div>
+
+            <div class="route-desc">
+              Balance entre tiempo y esfuerzo
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+
+          <strong>22</strong>
+          <span>min</span>
+
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>2.8km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="yellow">Media</strong>
+          <small>Fatiga</small>
+        </div>
+
+        <div class="stat">
+          <strong>260cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ECO -->
+
+    <div class="card" onclick="selectRoute(this,'Ruta Eco')">
+
+      <div class="check"></div>
+
+      <div class="route-top">
+
+        <div class="route-left">
+
+          <div class="route-icon">
+            🌿
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Eco
+            </div>
+
+            <div class="route-desc">
+              Terreno natural · Baja velocidad
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+
+          <strong>28</strong>
+          <span>min</span>
+
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>3.3km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="green">Baja</strong>
+          <small>Fatiga</small>
+        </div>
+
+        <div class="stat">
+          <strong>180cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <button
+      class="btn primary"
+      style="width:100%;margin-top:10px"
+      onclick="startRoute()">
+
+      ▶ Iniciar ruta seleccionada
+
+    </button>
+
   </div>
+
+</div>
+
+<!-- EFFORT -->
+<div class="screen" id="effort">
+
+  <div class="header">
+
+    <div class="back-btn" onclick="goTo('map')">
+      ←
+    </div>
+
+    <div class="title">
+      Estado físico
+    </div>
+
+    <div class="subtitle">
+      Monitoreo inteligente corporal
+    </div>
+
+  </div>
+
+  <div class="content center">
+
+    <div
+      class="voice-circle"
+      onclick="increaseFatigue()">
+
+      💪
+
+    </div>
+
+    <div
+      id="fatigueText"
+      style="
+        font-size:70px;
+        font-weight:700;
+        color:var(--rojo);
+      "
+    >
+      34%
+    </div>
+
+    <div style="margin-top:10px;color:#666">
+      Fatiga acumulada
+    </div>
+
+    <div class="metric-grid">
+
+      <div class="metric">
+        <strong>84</strong>
+        bpm
+      </div>
+
+      <div class="metric">
+        <strong>340</strong>
+        cal
+      </div>
+
+      <div class="metric">
+        <strong>2.1</strong>
+        km
+      </div>
+
+      <div class="metric">
+        <strong>4h</strong>
+        batería
+      </div>
+
+    </div>
+
+    <button
+      class="btn primary"
+      style="width:100%;margin-top:20px"
+      onclick="recoverFatigue()">
+
+      ❤️ Recuperar energía
+
+    </button>
+
+  </div>
+
+</div>
+
+<!-- VOICE -->
+<div class="screen" id="voice">
+
+  <div class="header">
+
+    <div class="back-btn" onclick="goTo('map')">
+      ←
+    </div>
+
+    <div class="title">
+      Asistente voz
+    </div>
+
+    <div class="subtitle">
+      Control manos libres
+    </div>
+
+  </div>
+
+  <div class="content center">
+
+    <div
+      class="voice-circle"
+      id="voiceBtn"
+      onclick="toggleVoice()">
+
+      🎙️
+
+    </div>
+
+    <h2 id="voiceState">
+      Modo voz inactivo
+    </h2>
+
+    <div
+      style="
+        margin-top:30px;
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+      "
+    >
+
+      <button
+        class="btn primary"
+        onclick="voiceCommand('Ruta corta')">
+
+        ⚡ Ruta corta
+
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="voiceCommand('Ruta suave')">
+
+        🛡️ Ruta suave
+
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="voiceCommand('Pausar ruta')">
+
+        ⏸️ Pausar
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FLOAT -->
+<div class="floating" onclick="emergency()">
+  🚨
+</div>
+
+<!-- NAV -->
+<div class="bottom-nav">
+
+  <div class="nav-item active" onclick="goTo('map')">
+    🗺️
+    <span>Mapa</span>
+  </div>
+
+  <div class="nav-item" onclick="goTo('routes')">
+    ⚡
+    <span>Rutas</span>
+  </div>
+
+  <div class="nav-item" onclick="goTo('effort')">
+    💪
+    <span>Cuerpo</span>
+  </div>
+
+  <div class="nav-item" onclick="goTo('voice')">
+    🎙️
+    <span>Voz</span>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  Mensaje
+</div>
 
 </div>
 
 <script>
 
-let selectedRoute = "Corta";
+let selectedRoute = "Ruta Corta";
 let fatigue = 34;
-let voice = false;
+let voiceActive = false;
 
-function goTo(id){
+function goTo(screen){
 
   document
     .querySelectorAll(".screen")
     .forEach(s=>s.classList.remove("active"));
 
   document
-    .getElementById(id)
+    .getElementById(screen)
     .classList.add("active");
 
-  updateNav(id);
+  updateNav(screen);
 
 }
 
-function updateNav(id){
+function updateNav(screen){
+
+  const items =
+    document.querySelectorAll(".nav-item");
+
+  items.forEach(i=>i.classList.remove("active"));
+
+  if(screen==="map"){
+    items[0].classList.add("active");
+  }
+
+  if(screen==="routes"){
+    items[1].classList.add("active");
+  }
+
+  if(screen==="effort"){
+    items[2].classList.add("active");
+  }
+
+  if(screen==="voice"){
+    items[3].classList.add("active");
+  }
+
+}
+
+function toggleSidebar(){
 
   document
-    .querySelectorAll(".nav-item")
-    .forEach(n=>n.classList.remove("active"));
+    .getElementById("sidebar")
+    .classList.toggle("active");
+
+  document
+    .getElementById("overlay")
+    .classList.toggle("active");
 
 }
 
-function selectCard(card,name){
+function showToast(text){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.innerHTML = text;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+
+    toast.classList.remove("show");
+
+  },2200);
+
+}
+
+function selectRoute(card,name){
 
   document
     .querySelectorAll(".card")
@@ -645,95 +1350,83 @@ function selectCard(card,name){
 
   selectedRoute = name;
 
-  toast("Ruta " + name + " seleccionada");
+  showToast(name + " seleccionada");
+
+  saveHistory(name);
 
 }
 
 function startRoute(){
 
-  toast("Iniciando ruta " + selectedRoute);
+  showToast(
+    "Iniciando " + selectedRoute
+  );
 
-  speak("Iniciando ruta " + selectedRoute);
+  speak(
+    "Iniciando " + selectedRoute
+  );
+
+}
+
+function pointAction(text){
+
+  showToast(text);
+
+  speak(text);
 
 }
 
 function emergency(){
 
-  navigator.vibrate?.([200,100,200]);
+  navigator.vibrate?.([150,80,150]);
 
-  toast("Emergencia enviada");
+  showToast(
+    "🚨 Emergencia enviada"
+  );
 
-  speak("Emergencia activada");
+  speak(
+    "Emergencia activada"
+  );
 
 }
 
 function toggleVoice(){
 
-  voice = !voice;
+  voiceActive = !voiceActive;
 
   const btn =
     document.getElementById("voiceBtn");
 
   const text =
-    document.getElementById("voiceText");
+    document.getElementById("voiceState");
 
   btn.classList.toggle("active");
 
-  if(voice){
+  if(voiceActive){
 
     text.innerHTML =
       "Escuchando comandos...";
 
-    speak("Modo voz activado");
+    speak(
+      "Modo voz activado"
+    );
 
   }else{
 
     text.innerHTML =
-      "Modo escucha inactivo";
+      "Modo voz inactivo";
 
   }
 
 }
 
-function pointAction(name){
+function voiceCommand(cmd){
 
-  toast(name);
+  showToast(
+    "Comando: " + cmd
+  );
 
-  speak(name);
-
-}
-
-function simulateFatigue(){
-
-  fatigue += 8;
-
-  if(fatigue > 100){
-    fatigue = 100;
-  }
-
-  updateFatigue();
-
-}
-
-function recover(){
-
-  fatigue -= 10;
-
-  if(fatigue < 0){
-    fatigue = 0;
-  }
-
-  updateFatigue();
-
-  toast("Energía recuperada");
-
-}
-
-function updateFatigue(){
-
-  document
-    .getElementById("fatigue")
-    .innerHTML = fatigue + "%";
+  speak(cmd);
 
 }
 
@@ -748,20 +1441,62 @@ function speak(text){
 
 }
 
-function toast(text){
+function increaseFatigue(){
 
-  const t =
-    document.getElementById("toast");
+  fatigue += 5;
 
-  t.innerHTML = text;
+  if(fatigue > 100){
+    fatigue = 100;
+  }
 
-  t.classList.add("show");
+  updateFatigue();
 
-  setTimeout(()=>{
+}
 
-    t.classList.remove("show");
+function recoverFatigue(){
 
-  },2000);
+  fatigue -= 10;
+
+  if(fatigue < 0){
+    fatigue = 0;
+  }
+
+  updateFatigue();
+
+  showToast(
+    "Fatiga reducida"
+  );
+
+}
+
+function updateFatigue(){
+
+  document
+    .getElementById("fatigueText")
+    .innerHTML = fatigue + "%";
+
+}
+
+function saveHistory(route){
+
+  let history =
+    JSON.parse(
+      localStorage.getItem("routes")
+    ) || [];
+
+  history.push({
+
+    route,
+
+    date:
+      new Date().toLocaleString()
+
+  });
+
+  localStorage.setItem(
+    "routes",
+    JSON.stringify(history)
+  );
 
 }
 
@@ -769,7 +1504,9 @@ function toggleTheme(){
 
   document.body.classList.toggle("dark");
 
-  toast("Tema actualizado");
+  showToast(
+    "Tema actualizado"
+  );
 
 }
 
@@ -783,7 +1520,7 @@ setInterval(()=>{
 
   updateFatigue();
 
-},10000);
+},9000);
 
 </script>
 
