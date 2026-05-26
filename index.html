@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ruta Justa</title>
+<title>RutaJusta IA</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
-  --verde-oscuro:#1B3A2D;
-  --verde-medio:#2D5A40;
-  --dorado:#C8962A;
-  --crema:#F5F0E8;
-  --cafe:#8B6340;
-  --blanco:#FFFFFF;
-  --gris:#E8E2D6;
-  --rojo:#E85A2A;
-  --negro:#0A0A0A;
+  --verde:#003F2F;
+  --verde2:#145341;
+  --dorado:#D4A537;
+  --crema:#F4EFE8;
+  --gris:#ECE7DF;
+  --texto:#1D1D1D;
+  --rojo:#E4572E;
+  --verde-ok:#20B15A;
+  --shadow:0 10px 35px rgba(0,0,0,.08);
 }
 
 *{
@@ -30,13 +30,12 @@
 }
 
 body{
-  background:var(--negro);
-  min-height:100vh;
+  background:#111;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:'DM Sans',sans-serif;
-  overflow:hidden;
+  min-height:100vh;
+  font-family:'Inter',sans-serif;
 }
 
 .phone{
@@ -63,44 +62,50 @@ body{
 
 }
 
-.screen{
-  position:absolute;
-  inset:0;
-  display:none;
-  flex-direction:column;
-  opacity:0;
-  transition:.35s ease;
+.header{
+  background:linear-gradient(135deg,var(--verde),#01281F);
+  color:white;
+  padding:58px 22px 28px;
 }
 
-.screen.active{
-  display:flex;
-  opacity:1;
-}
-
-.status-bar{
+.top{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:14px 20px 10px;
-  font-size:13px;
-  font-weight:700;
+  margin-bottom:26px;
 }
 
-.offline-badge{
-  background:rgba(255,255,255,.08);
-  padding:7px 12px;
-  border-radius:30px;
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo span{
+  font-family:'Playfair Display',serif;
+  font-size:34px;
+}
+
+.hamburger{
+  font-size:24px;
+  cursor:pointer;
+}
+
+.status{
   display:flex;
   align-items:center;
   gap:8px;
-  font-size:11px;
+  background:rgba(255,255,255,.08);
+  padding:8px 14px;
+  border-radius:30px;
+  font-size:12px;
 }
 
 .dot{
   width:8px;
   height:8px;
-  background:#4ADE80;
   border-radius:50%;
+  background:#4ADE80;
   animation:pulse 2s infinite;
 }
 
@@ -110,262 +115,105 @@ body{
   }
 }
 
-button{
-  border:none;
-  cursor:pointer;
-  transition:.2s ease;
-  font-family:'DM Sans',sans-serif;
-}
-
-button:active{
-  transform:scale(.96);
-}
-
-/* SPLASH */
-
-#splash{
-  background:linear-gradient(135deg,var(--verde-oscuro),#10261D);
-  justify-content:center;
-  align-items:center;
-  gap:28px;
-  text-align:center;
-}
-
-.splash-icon{
-  font-size:72px;
-}
-
-.splash-title{
+.title{
   font-family:'Playfair Display',serif;
-  font-size:52px;
-  color:white;
+  font-size:42px;
   line-height:1;
 }
 
-.splash-title span{
-  color:var(--dorado);
-}
-
-.splash-sub{
-  color:rgba(255,255,255,.6);
-  font-size:14px;
+.subtitle{
   margin-top:10px;
+  opacity:.7;
+  font-size:14px;
 }
 
-.start-app-btn{
-  background:var(--dorado);
-  color:var(--verde-oscuro);
-  padding:18px 42px;
-  border-radius:22px;
-  font-weight:700;
-  font-size:16px;
-  box-shadow:0 10px 30px rgba(200,150,42,.35);
-}
-
-/* MAPA */
-
-#mapa{
-  background:var(--crema);
-}
-
-.mapa-header{
-  padding:10px 20px 18px;
-}
-
-.mapa-title{
-  font-family:'Playfair Display',serif;
-  font-size:30px;
-  color:var(--verde-oscuro);
-}
-
-.mapa-sub{
-  color:var(--cafe);
+.ai-alert{
+  margin-top:18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:18px;
   font-size:13px;
-  margin-top:4px;
+  line-height:1.4;
 }
 
-.map-area{
-  flex:1;
-  position:relative;
-  background:linear-gradient(180deg,#35503A,#1B2E20);
-  overflow:hidden;
+.tabs{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:18px 20px;
 }
 
-.fake-map{
-  position:absolute;
-  inset:0;
+.tab{
+  min-width:92px;
+  background:white;
+  border-radius:18px;
+  padding:14px 10px;
+  text-align:center;
+  border:2px solid transparent;
+  box-shadow:var(--shadow);
+  transition:.25s;
+  cursor:pointer;
 }
 
-.fake-map::before{
-  content:"";
-  position:absolute;
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  background:rgba(255,255,255,.04);
-  top:60px;
-  left:-60px;
+.tab.active{
+  border-color:var(--dorado);
+  background:#FFF9EC;
 }
 
-.fake-map::after{
-  content:"";
-  position:absolute;
-  width:260px;
-  height:260px;
-  border-radius:50%;
-  background:rgba(255,255,255,.03);
-  bottom:40px;
-  right:-40px;
-}
-
-.route-line{
-  position:absolute;
-  width:5px;
-  height:320px;
-  background:#4ADE80;
-  left:50%;
-  top:70px;
-  transform:translateX(-50%) rotate(12deg);
-  border-radius:30px;
-  box-shadow:0 0 20px rgba(74,222,128,.5);
-}
-
-.route-pin{
-  position:absolute;
-  width:18px;
-  height:18px;
-  background:var(--dorado);
-  border-radius:50%;
-  border:4px solid white;
-}
-
-.pin-1{
-  top:90px;
-  left:52%;
-}
-
-.pin-2{
-  top:230px;
-  left:44%;
-}
-
-.pin-3{
-  bottom:110px;
-  left:50%;
-  background:#4ADE80;
-}
-
-.fatigue{
-  position:absolute;
-  top:18px;
-  right:18px;
-  background:rgba(0,0,0,.4);
-  backdrop-filter:blur(10px);
-  color:white;
-  padding:10px 14px;
-  border-radius:20px;
-  font-size:12px;
-}
-
-.map-overlay{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:24px 20px 30px;
-  background:linear-gradient(transparent,rgba(0,0,0,.82));
-}
-
-.location{
-  color:rgba(255,255,255,.7);
-  font-size:12px;
+.tab-icon{
+  font-size:24px;
   margin-bottom:6px;
 }
 
-.location-title{
-  color:white;
-  font-family:'Playfair Display',serif;
-  font-size:28px;
-  margin-bottom:18px;
-}
-
-.route-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.route-btn{
-  padding:16px;
-  border-radius:18px;
-  font-weight:700;
-  font-size:15px;
-}
-
-.route-btn.primary{
-  background:var(--dorado);
-  color:var(--verde-oscuro);
-}
-
-.route-btn.secondary{
-  background:rgba(255,255,255,.12);
-  color:white;
-  border:1px solid rgba(255,255,255,.2);
-}
-
-/* ELEGIR */
-
-#elegir{
-  background:var(--crema);
-}
-
-.header-dark{
-  background:var(--verde-oscuro);
-  color:white;
-  padding:14px 20px 24px;
-}
-
-.back{
-  background:none;
-  color:var(--dorado);
-  font-size:24px;
-  margin-bottom:12px;
-}
-
-.header-title{
-  font-family:'Playfair Display',serif;
-  font-size:30px;
-}
-
-.header-sub{
-  opacity:.7;
-  margin-top:6px;
+.tab-title{
   font-size:13px;
+  font-weight:700;
 }
 
-.routes{
-  flex:1;
+.content{
+  height:calc(100% - 315px);
   overflow:auto;
-  padding:20px;
+  padding:0 20px 180px;
 }
 
 .card{
   background:white;
-  border-radius:26px;
+  border-radius:28px;
   padding:20px;
   margin-bottom:18px;
-  box-shadow:0 10px 30px rgba(0,0,0,.06);
+  box-shadow:var(--shadow);
   border:2px solid transparent;
-  transition:.25s ease;
+  transition:.25s;
   cursor:pointer;
-}
-
-.card.selected{
-  border-color:var(--dorado);
+  position:relative;
 }
 
 .card:hover{
   transform:translateY(-3px);
+}
+
+.card.active{
+  border-color:var(--verde2);
+}
+
+.check{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:2px solid var(--verde2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:14px;
+  color:white;
+}
+
+.card.active .check{
+  background:var(--verde2);
 }
 
 .card-top{
@@ -375,7 +223,7 @@ button:active{
   margin-bottom:18px;
 }
 
-.route-left{
+.route-info{
   display:flex;
   gap:14px;
 }
@@ -383,38 +231,38 @@ button:active{
 .route-icon{
   width:56px;
   height:56px;
-  border-radius:16px;
+  border-radius:18px;
+  background:#EEF6F2;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:28px;
-  background:rgba(200,150,42,.12);
+  font-size:26px;
 }
 
 .route-name{
   font-family:'Playfair Display',serif;
-  font-size:28px;
-  color:var(--verde-oscuro);
+  font-size:30px;
+  color:var(--verde);
 }
 
 .route-desc{
-  color:var(--cafe);
   font-size:13px;
+  color:#666;
   margin-top:4px;
 }
 
-.route-time{
+.time{
   text-align:right;
 }
 
-.route-time strong{
+.time strong{
   font-size:34px;
-  color:var(--verde-oscuro);
+  color:var(--verde);
 }
 
-.route-time span{
+.time span{
   font-size:12px;
-  color:#777;
+  color:#666;
 }
 
 .stats{
@@ -424,7 +272,7 @@ button:active{
 }
 
 .stat{
-  background:var(--crema);
+  background:var(--gris);
   border-radius:14px;
   padding:12px;
   text-align:center;
@@ -432,161 +280,141 @@ button:active{
 
 .stat strong{
   display:block;
-  color:var(--verde-oscuro);
   margin-bottom:4px;
+  color:var(--verde);
 }
 
 .stat small{
   font-size:10px;
-  color:#777;
+  color:#666;
   text-transform:uppercase;
 }
 
-.start-route{
-  margin:0 20px 20px;
-  background:var(--verde-oscuro);
+.red{
+  color:var(--rojo)!important;
+}
+
+.yellow{
+  color:#C68A00!important;
+}
+
+.green{
+  color:var(--verde-ok)!important;
+}
+
+.floating{
+  position:absolute;
+  left:20px;
+  right:20px;
+  bottom:100px;
+  background:rgba(0,63,47,.96);
+  backdrop-filter:blur(12px);
+  border-radius:28px;
+  padding:18px;
   color:white;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+}
+
+.fatigue{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.fatigue-title{
+  font-size:13px;
+  opacity:.7;
+}
+
+.fatigue-percent{
+  font-size:28px;
+  font-weight:700;
+}
+
+.bar{
+  height:10px;
+  background:rgba(255,255,255,.1);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:35%;
+  background:linear-gradient(90deg,#4ADE80,#FACC15,#EF4444);
+  transition:1s;
+}
+
+.weather{
+  margin-top:14px;
+  font-size:13px;
+  opacity:.8;
+}
+
+.start-btn{
+  width:100%;
+  margin-top:16px;
+  background:linear-gradient(135deg,var(--dorado),#E6BC58);
+  border:none;
   padding:18px;
   border-radius:18px;
+  font-weight:700;
   font-size:16px;
-  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
 }
 
-/* ESFUERZO */
-
-#esfuerzo{
-  background:var(--negro);
-  color:white;
-}
-
-.esfuerzo-body{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  gap:28px;
-}
-
-.circle{
-  width:190px;
-  height:190px;
-  border-radius:50%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:radial-gradient(circle,rgba(232,90,42,.3),rgba(232,90,42,.08));
-  border:3px solid var(--rojo);
-  box-shadow:0 0 50px rgba(232,90,42,.4);
-}
-
-.circle-icon{
-  font-size:50px;
-}
-
-.circle-text{
-  margin-top:10px;
-  font-weight:700;
-  letter-spacing:.08em;
-}
-
-.alert-title{
-  font-family:'Playfair Display',serif;
-  font-size:28px;
-  text-align:center;
-}
-
-.alert-sub{
-  color:rgba(255,255,255,.6);
-  text-align:center;
-  line-height:1.5;
-}
-
-.metrics{
-  width:100%;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.metric{
-  background:rgba(255,255,255,.06);
-  border-radius:18px;
-  padding:16px;
-}
-
-.metric strong{
-  font-size:28px;
-}
-
-.metric span{
-  display:block;
-  margin-top:4px;
-  color:rgba(255,255,255,.5);
-  font-size:11px;
-  text-transform:uppercase;
+.start-btn:active{
+  transform:scale(.97);
 }
 
 .voice-btn{
-  background:rgba(255,255,255,.08);
+  width:100%;
+  margin-top:12px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.08);
   color:white;
-  padding:16px 24px;
-  border-radius:40px;
-  border:1px solid rgba(255,255,255,.12);
+  padding:14px;
+  border-radius:18px;
+  cursor:pointer;
 }
-
-/* NAV */
 
 .nav{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:white;
+  border-top:1px solid #E7E1D6;
   display:flex;
   justify-content:space-around;
-  padding:10px 0 24px;
-  background:white;
-  border-top:1px solid var(--gris);
-}
-
-.nav.dark{
-  background:rgba(255,255,255,.05);
-  border-top:1px solid rgba(255,255,255,.08);
+  padding:14px 0 24px;
 }
 
 .nav-item{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:5px;
+  gap:6px;
   font-size:11px;
-  cursor:pointer;
   color:#777;
 }
 
 .nav-item.active{
-  color:var(--verde-oscuro);
+  color:var(--verde);
   font-weight:700;
-  transform:translateY(-2px);
 }
-
-.nav.dark .nav-item{
-  color:rgba(255,255,255,.4);
-}
-
-.nav.dark .nav-item.active{
-  color:var(--dorado);
-}
-
-/* TOAST */
 
 .toast{
-  position:fixed;
-  bottom:40px;
+  position:absolute;
   left:50%;
-  transform:translateX(-50%) translateY(30px);
+  bottom:120px;
+  transform:translateX(-50%);
   background:#111;
   color:white;
   padding:14px 18px;
-  border-radius:14px;
+  border-radius:16px;
   opacity:0;
   transition:.3s;
   z-index:9999;
@@ -594,7 +422,113 @@ button:active{
 
 .toast.show{
   opacity:1;
-  transform:translateX(-50%) translateY(0);
+  bottom:140px;
+}
+
+.sidebar{
+  position:absolute;
+  top:0;
+  left:-320px;
+  width:300px;
+  height:100%;
+  background:white;
+  z-index:999;
+  transition:.35s;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar.active{
+  left:0;
+}
+
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:998;
+}
+
+.overlay.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:34px;
+}
+
+.avatar{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:var(--verde);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:26px;
+}
+
+.profile strong{
+  color:var(--verde);
+}
+
+.profile p{
+  font-size:12px;
+  color:#666;
+  margin-top:4px;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.menu-item{
+  background:var(--crema);
+  padding:16px;
+  border-radius:16px;
+  font-weight:600;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.menu-item:hover{
+  transform:translateX(4px);
+}
+
+.emergency{
+  position:absolute;
+  right:20px;
+  bottom:210px;
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  background:var(--rojo);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28px;
+  box-shadow:0 12px 30px rgba(228,87,46,.45);
+  cursor:pointer;
+  animation:pulseEmergency 2s infinite;
+}
+
+@keyframes pulseEmergency{
+  50%{
+    transform:scale(1.06);
+  }
 }
 
 </style>
@@ -604,505 +538,554 @@ button:active{
 
 <div class="phone">
 
-  <!-- SPLASH -->
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-  <div class="screen active" id="splash">
+  <div class="sidebar" id="sidebar">
 
-    <div class="splash-icon">⛰️</div>
+    <div class="profile">
 
-    <div>
-      <div class="splash-title">
-        RUTA <span>JUSTA</span>
-      </div>
-
-      <div class="splash-sub">
-        Tecnología que acompaña, no distrae
-      </div>
-    </div>
-
-    <button class="start-app-btn" onclick="showScreen('mapa')">
-      Comenzar jornada
-    </button>
-
-  </div>
-
-  <!-- MAPA -->
-
-  <div class="screen" id="mapa">
-
-    <div class="status-bar" style="background:var(--crema); color:var(--verde-oscuro);">
-
-      <div>9:31</div>
-
-      <div class="offline-badge">
-        <div class="dot"></div>
-        Offline activo
-      </div>
-
-      <div>☰</div>
-
-    </div>
-
-    <div class="mapa-header">
-
-      <div class="mapa-title">
-        Mapa de Ruta
-      </div>
-
-      <div class="mapa-sub">
-        Santa Elena · 3 entregas
-      </div>
-
-    </div>
-
-    <div class="map-area">
-
-      <div class="fake-map">
-        <div class="route-line"></div>
-
-        <div class="route-pin pin-1"></div>
-        <div class="route-pin pin-2"></div>
-        <div class="route-pin pin-3"></div>
-      </div>
-
-      <div class="fatigue">
-        💪 Fatiga 34%
-      </div>
-
-      <div class="map-overlay">
-
-        <div class="location">
-          📍 Tu ubicación
-        </div>
-
-        <div class="location-title">
-          Vereda San Miguel
-        </div>
-
-        <div class="route-buttons">
-
-          <button class="route-btn primary" onclick="goChoose('corta')">
-            ⚡ Ruta corta
-          </button>
-
-          <button class="route-btn secondary" onclick="goChoose('suave')">
-            🛡️ Ruta suave
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="nav">
-
-      <div class="nav-item active" onclick="showScreen('mapa')">
-        🗺️
-        <span>Mapa</span>
-      </div>
-
-      <div class="nav-item" onclick="showScreen('elegir')">
-        📦
-        <span>Entregas</span>
-      </div>
-
-      <div class="nav-item" onclick="showScreen('esfuerzo')">
-        💪
-        <span>Cuerpo</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- ELEGIR -->
-
-  <div class="screen" id="elegir">
-
-    <div class="header-dark">
-
-      <button class="back" onclick="showScreen('mapa')">
-        ←
-      </button>
-
-      <div class="header-title">
-        Elige tu ruta
-      </div>
-
-      <div class="header-sub">
-        Optimizada por esfuerzo físico
-      </div>
-
-    </div>
-
-    <div class="routes">
-
-      <div class="card selected" data-route="corta" onclick="selectRoute('corta',this)">
-
-        <div class="card-top">
-
-          <div class="route-left">
-
-            <div class="route-icon">
-              ⚡
-            </div>
-
-            <div>
-
-              <div class="route-name">
-                Corta
-              </div>
-
-              <div class="route-desc">
-                Menos distancia · Mayor pendiente
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="route-time">
-            <strong>12</strong><br>
-            <span>min</span>
-          </div>
-
-        </div>
-
-        <div class="stats">
-
-          <div class="stat">
-            <strong>1.4km</strong>
-            <small>Distancia</small>
-          </div>
-
-          <div class="stat">
-            <strong style="color:var(--rojo)">Alto</strong>
-            <small>Esfuerzo</small>
-          </div>
-
-          <div class="stat">
-            <strong>380cal</strong>
-            <small>Calorías</small>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="card" data-route="suave" onclick="selectRoute('suave',this)">
-
-        <div class="card-top">
-
-          <div class="route-left">
-
-            <div class="route-icon">
-              🛡️
-            </div>
-
-            <div>
-
-              <div class="route-name">
-                Suave
-              </div>
-
-              <div class="route-desc">
-                Más distancia · Menos desgaste
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="route-time">
-            <strong>18</strong><br>
-            <span>min</span>
-          </div>
-
-        </div>
-
-        <div class="stats">
-
-          <div class="stat">
-            <strong>2.1km</strong>
-            <small>Distancia</small>
-          </div>
-
-          <div class="stat">
-            <strong style="color:var(--dorado)">Medio</strong>
-            <small>Esfuerzo</small>
-          </div>
-
-          <div class="stat">
-            <strong>210cal</strong>
-            <small>Calorías</small>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <button class="start-route" onclick="startRoute()">
-      Iniciar ruta →
-    </button>
-
-  </div>
-
-  <!-- ESFUERZO -->
-
-  <div class="screen" id="esfuerzo">
-
-    <div class="status-bar" style="color:white;">
-
-      <div>9:31</div>
-
-      <div class="offline-badge">
-        <div class="dot"></div>
-        Offline activo
-      </div>
-
-      <div>☰</div>
-
-    </div>
-
-    <div class="esfuerzo-body">
-
-      <div class="circle">
-
-        <div class="circle-icon">
-          🏃
-        </div>
-
-        <div class="circle-text" id="effortText">
-          Alto esfuerzo
-        </div>
-
+      <div class="avatar">
+        🚴
       </div>
 
       <div>
-
-        <div class="alert-title">
-          Recomendado descansar pronto
-        </div>
-
-        <div class="alert-sub">
-          La pendiente continua está aumentando<br>
-          el desgaste físico estimado.
-        </div>
-
-      </div>
-
-      <div class="metrics">
-
-        <div class="metric">
-          <strong>84</strong>
-          <span>Ritmo cardiaco</span>
-        </div>
-
-        <div class="metric">
-          <strong>340</strong>
-          <span>Calorías</span>
-        </div>
-
-        <div class="metric">
-          <strong>78%</strong>
-          <span>Fatiga lumbar</span>
-        </div>
-
-        <div class="metric">
-          <strong>1.2km</strong>
-          <span>Recorrido</span>
-        </div>
-
-      </div>
-
-      <button class="voice-btn" onclick="toggleVoice(this)">
-        🎙️ Activar modo voz
-      </button>
-
-    </div>
-
-    <div class="nav dark">
-
-      <div class="nav-item" onclick="showScreen('mapa')">
-        🗺️
-        <span>Mapa</span>
-      </div>
-
-      <div class="nav-item" onclick="showScreen('elegir')">
-        📦
-        <span>Entregas</span>
-      </div>
-
-      <div class="nav-item active">
-        💪
-        <span>Cuerpo</span>
+        <strong>Juan Camilo</strong>
+        <p>Estado físico estable</p>
       </div>
 
     </div>
 
+    <div class="menu">
+
+      <div class="menu-item" onclick="showToast('Mostrando estadísticas')">
+        📊 Estadísticas físicas
+      </div>
+
+      <div class="menu-item" onclick="showToast('Historial cargado')">
+        🗺️ Historial de rutas
+      </div>
+
+      <div class="menu-item" onclick="toggleDarkMode()">
+        🌙 Cambiar tema
+      </div>
+
+      <div class="menu-item" onclick="showToast('Modo offline activo')">
+        📡 Estado offline
+      </div>
+
+      <div class="menu-item" onclick="showToast('Configuración abierta')">
+        ⚙️ Configuración
+      </div>
+
+      <div class="menu-item" onclick="resetFatigue()">
+        ❤️ Reiniciar fatiga
+      </div>
+
+      <div class="menu-item" onclick="showToast('IA analizando rutas')">
+        🤖 IA adaptativa
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="header">
+
+    <div class="top">
+
+      <div class="logo">
+        <div class="hamburger" onclick="toggleSidebar()">
+          ☰
+        </div>
+
+        <span>RutaJusta</span>
+      </div>
+
+      <div class="status">
+        <div class="dot"></div>
+        Offline activo
+      </div>
+
+    </div>
+
+    <div class="title">
+      Elige tu ruta
+    </div>
+
+    <div class="subtitle">
+      IA adaptativa basada en desgaste físico
+    </div>
+
+    <div class="ai-alert" id="aiText">
+      🤖 Detectamos terreno húmedo. Recomendamos una ruta suave para evitar fatiga lumbar.
+    </div>
+
+  </div>
+
+  <div class="tabs">
+
+    <div class="tab active">
+      <div class="tab-icon">⚡</div>
+      <div class="tab-title">Corta</div>
+    </div>
+
+    <div class="tab">
+      <div class="tab-icon">⛰️</div>
+      <div class="tab-title">Alta</div>
+    </div>
+
+    <div class="tab">
+      <div class="tab-icon">🛡️</div>
+      <div class="tab-title">Suave</div>
+    </div>
+
+    <div class="tab">
+      <div class="tab-icon">🍃</div>
+      <div class="tab-title">Media</div>
+    </div>
+
+  </div>
+
+  <div class="content">
+
+    <div class="card active" onclick="selectCard(this,'Ruta Corta')">
+
+      <div class="check">✓</div>
+
+      <div class="card-top">
+
+        <div class="route-info">
+
+          <div class="route-icon">
+            ⚡
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Corta
+            </div>
+
+            <div class="route-desc">
+              Menos distancia · Alta pendiente
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+          <strong>12</strong><br>
+          <span>min</span>
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>1.4km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="red">Alto</strong>
+          <small>Esfuerzo</small>
+        </div>
+
+        <div class="stat">
+          <strong>380cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card" onclick="selectCard(this,'Ruta Suave 1')">
+
+      <div class="check"></div>
+
+      <div class="card-top">
+
+        <div class="route-info">
+
+          <div class="route-icon">
+            🛡️
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Suave 1
+            </div>
+
+            <div class="route-desc">
+              Ruta tranquila y continua
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+          <strong>18</strong><br>
+          <span>min</span>
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>2.1km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="green">Bajo</strong>
+          <small>Esfuerzo</small>
+        </div>
+
+        <div class="stat">
+          <strong>210cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="card" onclick="selectCard(this,'Ruta Suave 2')">
+
+      <div class="check"></div>
+
+      <div class="card-top">
+
+        <div class="route-info">
+
+          <div class="route-icon">
+            🍃
+          </div>
+
+          <div>
+
+            <div class="route-name">
+              Media
+            </div>
+
+            <div class="route-desc">
+              Balance entre tiempo y energía
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="time">
+          <strong>22</strong><br>
+          <span>min</span>
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat">
+          <strong>2.6km</strong>
+          <small>Distancia</small>
+        </div>
+
+        <div class="stat">
+          <strong class="yellow">Medio</strong>
+          <small>Esfuerzo</small>
+        </div>
+
+        <div class="stat">
+          <strong>260cal</strong>
+          <small>Calorías</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="floating">
+
+    <div class="fatigue">
+
+      <div>
+        <div class="fatigue-title">
+          Fatiga corporal estimada
+        </div>
+      </div>
+
+      <div class="fatigue-percent" id="fatigueText">
+        35%
+      </div>
+
+    </div>
+
+    <div class="bar">
+      <div class="fill" id="fill"></div>
+    </div>
+
+    <div class="weather" id="weather">
+      🌧️ Terreno húmedo · Pendiente moderada
+    </div>
+
+    <button class="start-btn" onclick="startRoute()">
+      Iniciar ruta optimizada →
+    </button>
+
+    <button class="voice-btn" onclick="toggleVoice()">
+      🎙️ Activar modo voz
+    </button>
+
+  </div>
+
+  <div class="emergency" onclick="emergency()">
+    🚨
+  </div>
+
+  <div class="nav">
+
+    <div class="nav-item active">
+      🗺️
+      <span>Mapa</span>
+    </div>
+
+    <div class="nav-item">
+      📦
+      <span>Entregas</span>
+    </div>
+
+    <div class="nav-item">
+      💪
+      <span>Esfuerzo</span>
+    </div>
+
+    <div class="nav-item">
+      📡
+      <span>Offline</span>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast">
+    Mensaje
   </div>
 
 </div>
 
 <script>
 
-let selectedRoute = "corta";
+let fatigue = 35;
+let selectedRoute = "Ruta Corta";
+let voiceActive = false;
+let dark = false;
 
-const routes = {
+const aiMessages = [
 
-  corta:{
-    effort:"Alto esfuerzo"
-  },
+  "🤖 Detectamos terreno húmedo. Recomendamos una ruta suave para evitar fatiga lumbar.",
 
-  suave:{
-    effort:"Esfuerzo moderado"
-  }
+  "🤖 Fatiga acumulada detectada. Disminuya velocidad durante los próximos 500 metros.",
 
-};
+  "🤖 Ruta optimizada por pendiente y desgaste físico.",
 
-function showScreen(id){
+  "🤖 Se detectó aumento de ritmo cardiaco. Recomendamos descanso corto."
 
-  document.querySelectorAll(".screen").forEach(screen=>{
+];
 
-    screen.classList.remove("active");
-    screen.style.display = "none";
+function showToast(text){
 
-  });
+  const toast = document.getElementById("toast");
 
-  const target = document.getElementById(id);
+  toast.innerHTML = text;
 
-  target.style.display = "flex";
+  toast.classList.add("show");
 
-  requestAnimationFrame(()=>{
+  setTimeout(()=>{
 
-    target.classList.add("active");
+    toast.classList.remove("show");
 
-  });
+  },2200);
 
 }
 
-function goChoose(route){
+function selectCard(card,name){
 
-  selectedRoute = route;
+  document.querySelectorAll(".card")
+    .forEach(c=>c.classList.remove("active"));
 
-  updateRouteUI();
+  card.classList.add("active");
 
-  showScreen("elegir");
+  selectedRoute = name;
 
-}
+  saveHistory(name);
 
-function selectRoute(route,element){
-
-  selectedRoute = route;
-
-  document.querySelectorAll(".card").forEach(card=>{
-
-    card.classList.remove("selected");
-
-  });
-
-  element.classList.add("selected");
-
-  updateRouteUI();
-
-  toast(`Ruta ${route} seleccionada`);
-
-}
-
-function updateRouteUI(){
-
-  const text = document.getElementById("effortText");
-
-  text.innerHTML = routes[selectedRoute].effort;
+  showToast(name + " seleccionada");
 
 }
 
 function startRoute(){
 
-  toast("Iniciando ruta optimizada");
+  showToast("Iniciando " + selectedRoute);
 
-  setTimeout(()=>{
-
-    showScreen("esfuerzo");
-
-  },700);
+  speak("Iniciando " + selectedRoute);
 
 }
 
-function toggleVoice(btn){
+function toggleSidebar(){
 
-  const active = btn.dataset.active === "1";
+  document.getElementById("sidebar")
+    .classList.toggle("active");
 
-  if(!active){
+  document.getElementById("overlay")
+    .classList.toggle("active");
 
-    btn.dataset.active = "1";
+}
 
-    btn.innerHTML = "⏹️ Desactivar modo voz";
+function toggleVoice(){
 
-    btn.style.background = "var(--rojo)";
+  voiceActive = !voiceActive;
 
-    toast("Modo voz activado");
+  if(voiceActive){
 
-    navigator.vibrate?.([100,50,100]);
+    speak("Modo voz activado");
+
+    showToast("Modo voz activado");
 
   }else{
 
-    btn.dataset.active = "0";
-
-    btn.innerHTML = "🎙️ Activar modo voz";
-
-    btn.style.background = "rgba(255,255,255,.08)";
-
-    toast("Modo voz desactivado");
+    showToast("Modo voz desactivado");
 
   }
 
 }
 
-function toast(message){
+function emergency(){
 
-  const old = document.querySelector(".toast");
+  navigator.vibrate?.([150,80,150]);
 
-  if(old){
-    old.remove();
+  showToast("🚨 Emergencia enviada");
+
+  speak("Emergencia activada");
+
+}
+
+function speak(text){
+
+  const msg = new SpeechSynthesisUtterance(text);
+
+  msg.lang = "es-ES";
+
+  speechSynthesis.speak(msg);
+
+}
+
+function toggleDarkMode(){
+
+  dark = !dark;
+
+  if(dark){
+
+    document.documentElement.style
+      .setProperty('--crema','#141414');
+
+    document.documentElement.style
+      .setProperty('--gris','#222');
+
+    document.body.style.background = "#000";
+
+    showToast("Modo oscuro activado");
+
+  }else{
+
+    document.documentElement.style
+      .setProperty('--crema','#F4EFE8');
+
+    document.documentElement.style
+      .setProperty('--gris','#ECE7DF');
+
+    document.body.style.background = "#111";
+
+    showToast("Modo claro activado");
+
   }
 
-  const el = document.createElement("div");
+}
 
-  el.className = "toast";
+function saveHistory(route){
 
-  el.innerHTML = message;
+  let history =
+    JSON.parse(localStorage.getItem("routes")) || [];
 
-  document.body.appendChild(el);
-
-  requestAnimationFrame(()=>{
-
-    el.classList.add("show");
-
+  history.push({
+    route,
+    date:new Date().toLocaleString()
   });
 
-  setTimeout(()=>{
-
-    el.classList.remove("show");
-
-    setTimeout(()=>{
-
-      el.remove();
-
-    },300);
-
-  },2000);
+  localStorage.setItem(
+    "routes",
+    JSON.stringify(history)
+  );
 
 }
 
-window.onload = ()=>{
+function resetFatigue(){
 
-  showScreen("splash");
+  fatigue = 20;
 
-};
+  updateFatigue();
+
+  showToast("Fatiga reiniciada");
+
+}
+
+function updateFatigue(){
+
+  if(fatigue > 100){
+    fatigue = 100;
+  }
+
+  document.getElementById("fatigueText")
+    .innerHTML = fatigue + "%";
+
+  document.getElementById("fill")
+    .style.width = fatigue + "%";
+
+  if(fatigue > 70){
+
+    document.getElementById("aiText")
+      .innerHTML =
+      "🤖 Nivel alto de desgaste detectado. Recomendamos detenerse.";
+
+  }
+
+}
+
+setInterval(()=>{
+
+  fatigue += Math.floor(Math.random()*4);
+
+  updateFatigue();
+
+},5000);
+
+setInterval(()=>{
+
+  const msg =
+    aiMessages[
+      Math.floor(Math.random()*aiMessages.length)
+    ];
+
+  document.getElementById("aiText")
+    .innerHTML = msg;
+
+},7000);
 
 </script>
 
