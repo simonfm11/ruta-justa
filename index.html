@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>RutaJusta</title>
 
@@ -11,399 +11,131 @@
 <style>
 
 :root{
-
-  --verde:#003F2F;
-  --verde2:#145341;
+  --verde:#143D32;
+  --verde2:#1F5A4B;
   --dorado:#D4A537;
   --crema:#F5F1EB;
   --gris:#ECE7DF;
-  --texto:#222;
+  --negro:#101010;
   --rojo:#F05A28;
-  --verdeok:#19B36B;
-
-  --shadow:
-    0 10px 35px rgba(0,0,0,.08);
-
+  --verdeok:#1BC276;
+  --shadow:0 10px 35px rgba(0,0,0,.12);
 }
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
+  font-family:'Inter',sans-serif;
   -webkit-tap-highlight-color:transparent;
 }
 
 body{
-
-  background:#101010;
-
+  background:#111;
   display:flex;
   justify-content:center;
   align-items:center;
-
   min-height:100vh;
-
-  font-family:'Inter',sans-serif;
-
 }
 
 .phone{
-
   width:390px;
   height:844px;
-
   background:var(--crema);
-
-  border-radius:42px;
-
+  border-radius:40px;
   overflow:hidden;
-
   position:relative;
-
-  box-shadow:
-    0 30px 100px rgba(0,0,0,.45);
-
+  box-shadow:0 30px 90px rgba(0,0,0,.5);
 }
 
-@media(max-width:420px){
+.screen{
+  position:absolute;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  background:var(--crema);
+}
 
-  body{
-    background:var(--crema);
-  }
-
-  .phone{
-    width:100vw;
-    height:100vh;
-    border-radius:0;
-  }
-
+.screen.active{
+  display:flex;
 }
 
 .header{
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--verde),
-      #01281F
-    );
-
+  background:linear-gradient(135deg,var(--verde),#0B241D);
   color:white;
-
-  padding:
-    58px 22px 30px;
-
+  padding:55px 20px 24px;
 }
 
 .top{
-
   display:flex;
   justify-content:space-between;
   align-items:center;
-
-  margin-bottom:28px;
-
+  margin-bottom:25px;
 }
 
 .logo{
-
   display:flex;
   align-items:center;
-  gap:14px;
-
+  gap:12px;
 }
 
-.logo span{
-
-  font-family:
-    'Playfair Display',
-    serif;
-
-  font-size:34px;
-
+.logo h1{
+  font-family:'Playfair Display',serif;
+  font-size:30px;
 }
 
-.hamburger{
-
-  font-size:24px;
+.icon-btn{
   cursor:pointer;
-
+  font-size:24px;
 }
 
 .status{
-
-  display:flex;
-  align-items:center;
-  gap:8px;
-
-  background:
-    rgba(255,255,255,.08);
-
-  padding:10px 14px;
-
-  border-radius:30px;
-
+  background:rgba(255,255,255,.1);
+  padding:8px 14px;
+  border-radius:20px;
   font-size:12px;
-
-}
-
-.dot{
-
-  width:8px;
-  height:8px;
-
-  border-radius:50%;
-
-  background:#4ADE80;
-
-  animation:pulse 2s infinite;
-
-}
-
-@keyframes pulse{
-
-  50%{
-    opacity:.3;
-  }
-
-}
-
-.title{
-
-  font-family:
-    'Playfair Display',
-    serif;
-
-  font-size:44px;
-
-  line-height:1;
-
-}
-
-.subtitle{
-
-  margin-top:12px;
-
-  opacity:.7;
-
-  font-size:15px;
-
-}
-
-.ai-alert{
-
-  margin-top:22px;
-
-  background:
-    rgba(255,255,255,.08);
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-  padding:16px;
-
-  border-radius:22px;
-
-  line-height:1.5;
-
-  font-size:14px;
-
-}
-
-.tabs{
-
-  display:flex;
-
-  gap:12px;
-
-  overflow-x:auto;
-
-  padding:18px 18px 10px;
-
-}
-
-.tabs::-webkit-scrollbar{
-  display:none;
-}
-
-.tab{
-
-  min-width:96px;
-
-  background:white;
-
-  border-radius:22px;
-
-  padding:18px 10px;
-
-  text-align:center;
-
-  border:2px solid transparent;
-
-  box-shadow:var(--shadow);
-
-  transition:.25s ease;
-
-  cursor:pointer;
-
-}
-
-.tab.active{
-
-  border-color:var(--dorado);
-
-  background:#FFF8EB;
-
-}
-
-.tab:hover{
-  transform:translateY(-3px);
-}
-
-.tab-icon{
-
-  font-size:24px;
-
-  margin-bottom:8px;
-
-}
-
-.tab-title{
-
-  font-size:13px;
-
-  font-weight:700;
-
 }
 
 .content{
-
-  height:calc(100% - 340px);
-
+  flex:1;
   overflow:auto;
-
-  padding:
-    0 18px 130px;
-
-}
-
-.content::-webkit-scrollbar{
-  width:0;
+  padding:18px;
 }
 
 .card{
-
   background:white;
-
-  border-radius:30px;
-
-  padding:22px;
-
-  margin-bottom:18px;
-
+  border-radius:24px;
+  padding:18px;
+  margin-bottom:16px;
   box-shadow:var(--shadow);
-
-  border:2px solid transparent;
-
-  transition:.25s ease;
-
   cursor:pointer;
-
-  position:relative;
-
+  transition:.25s;
+  border:2px solid transparent;
 }
 
 .card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-3px);
 }
 
 .card.active{
-  border-color:var(--verde2);
+  border-color:var(--dorado);
 }
 
-.check{
-
-  position:absolute;
-
-  right:20px;
-  top:20px;
-
-  width:28px;
-  height:28px;
-
-  border-radius:50%;
-
-  border:
-    2px solid var(--verde2);
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  color:white;
-
-  font-size:14px;
-
-}
-
-.card.active .check{
-  background:var(--verde2);
-}
-
-.card-top{
-
+.route-top{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-
-  margin-bottom:18px;
-
-}
-
-.route-info{
-
-  display:flex;
-  gap:14px;
-
-}
-
-.route-icon{
-
-  width:58px;
-  height:58px;
-
-  border-radius:18px;
-
-  background:#EEF6F2;
-
-  display:flex;
-  justify-content:center;
   align-items:center;
-
-  font-size:28px;
-
 }
 
 .route-name{
-
-  font-family:
-    'Playfair Display',
-    serif;
-
-  font-size:32px;
-
+  font-family:'Playfair Display',serif;
+  font-size:28px;
   color:var(--verde);
-
 }
 
 .route-desc{
-
   font-size:13px;
-
   color:#666;
-
-  margin-top:4px;
-
 }
 
 .time{
@@ -411,1111 +143,450 @@ body{
 }
 
 .time strong{
-
-  font-size:36px;
-
+  font-size:32px;
   color:var(--verde);
-
-}
-
-.time span{
-
-  font-size:12px;
-  color:#666;
-
 }
 
 .stats{
-
   display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
-
+  margin-top:18px;
 }
 
 .stat{
-
   background:var(--gris);
-
-  border-radius:16px;
-
-  padding:14px 10px;
-
+  border-radius:14px;
+  padding:12px;
   text-align:center;
-
 }
 
 .stat strong{
-
   display:block;
-
-  margin-bottom:5px;
-
-  font-size:18px;
-
   color:var(--verde);
-
 }
 
-.stat small{
-
-  font-size:10px;
-
-  color:#777;
-
-  text-transform:uppercase;
-
-}
-
-.red{
-  color:#F05A28!important;
-}
-
-.yellow{
-  color:#C98A00!important;
-}
-
-.green{
-  color:var(--verdeok)!important;
-}
-
-.bottom-sheet{
-
-  position:absolute;
-
-  left:0;
-  right:0;
-  bottom:78px;
-
-  background:
-    rgba(0,63,47,.97);
-
-  backdrop-filter:blur(20px);
-
-  border-radius:
-    34px 34px 0 0;
-
-  padding:
-    14px 18px 26px;
-
-  color:white;
-
-  transition:.4s ease;
-
-  min-height:120px;
-
-  max-height:72%;
-
-  overflow:hidden;
-
-  z-index:30;
-
-  box-shadow:
-    0 -10px 40px rgba(0,0,0,.18);
-
-}
-
-.bottom-sheet.expanded{
-  min-height:350px;
-}
-
-.sheet-handle{
-
-  width:54px;
-  height:6px;
-
-  border-radius:20px;
-
-  background:
-    rgba(255,255,255,.35);
-
-  margin:
-    0 auto 16px;
-
-  cursor:pointer;
-
-}
-
-.sheet-mini{
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:16px;
-
-}
-
-.sheet-mini h3{
-
-  font-size:15px;
-
-  font-weight:600;
-
-}
-
-.sheet-mini strong{
-
-  font-size:34px;
-
-}
-
-.bar{
-
-  height:10px;
-
-  background:
-    rgba(255,255,255,.1);
-
-  border-radius:20px;
-
-  overflow:hidden;
-
-}
-
-.fill{
-
-  height:100%;
-
-  width:24%;
-
-  background:
-    linear-gradient(
-      90deg,
-      #00E676,
-      #FFD54F,
-      #FF5252
-    );
-
-  transition:1s;
-
-}
-
-.sheet-content{
-
-  opacity:0;
-
-  max-height:0;
-
-  overflow:hidden;
-
-  transition:.35s ease;
-
-}
-
-.bottom-sheet.expanded .sheet-content{
-
-  opacity:1;
-
-  max-height:600px;
-
-}
-
-.weather{
-
-  margin-top:16px;
-
-  opacity:.85;
-
-  font-size:14px;
-
-}
-
-.quick-stats{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap:10px;
-
-  margin-top:18px;
-
-}
-
-.quick{
-
-  background:
-    rgba(255,255,255,.08);
-
-  padding:16px 10px;
-
-  border-radius:18px;
-
-  text-align:center;
-
-}
-
-.quick strong{
-
-  display:block;
-
-  margin-bottom:4px;
-
-  font-size:16px;
-
-}
-
-.quick small{
-
-  font-size:10px;
-
-  opacity:.7;
-
-  text-transform:uppercase;
-
-}
-
-.sheet-actions{
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:12px;
-
-  margin-top:20px;
-
-}
-
-.modern-btn{
-
-  border:none;
-
-  padding:18px;
-
-  border-radius:22px;
-
-  font-size:16px;
-  font-weight:700;
-
-  cursor:pointer;
-
-  transition:.2s;
-
-}
-
-.modern-btn:active{
-  transform:scale(.97);
-}
-
-.primary{
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--dorado),
-      #E9C15A
-    );
-
-  color:black;
-
-}
-
-.secondary{
-
-  background:
-    rgba(255,255,255,.08);
-
-  color:white;
-
-  border:
-    1px solid rgba(255,255,255,.08);
-
-}
-
-.nav{
-
-  position:absolute;
-
-  bottom:0;
-  left:0;
-  right:0;
-
-  background:white;
-
-  border-top:
-    1px solid #E7E1D6;
-
+.bottom-nav{
   display:flex;
   justify-content:space-around;
-
-  padding:14px 0 24px;
-
-  z-index:40;
-
+  padding:12px 0 22px;
+  background:white;
+  border-top:1px solid #DDD;
 }
 
 .nav-item{
-
   display:flex;
   flex-direction:column;
   align-items:center;
-
-  gap:6px;
-
+  gap:4px;
   font-size:11px;
-
-  color:#777;
-
+  cursor:pointer;
+  color:#666;
 }
 
 .nav-item.active{
-
   color:var(--verde);
-
   font-weight:700;
-
 }
 
-.sidebar{
+.map{
+  flex:1;
+  position:relative;
+  background:#22392E;
+}
 
-  position:absolute;
-
-  top:0;
-  left:-320px;
-
-  width:300px;
+svg{
+  width:100%;
   height:100%;
-
-  background:white;
-
-  z-index:999;
-
-  transition:.35s ease;
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.2);
-
-  padding:24px;
-
 }
 
-.sidebar.active{
-  left:0;
-}
-
-.overlay{
-
-  position:absolute;
-
-  inset:0;
-
-  background:
-    rgba(0,0,0,.35);
-
-  opacity:0;
-
-  pointer-events:none;
-
-  transition:.3s;
-
-  z-index:998;
-
-}
-
-.overlay.active{
-
-  opacity:1;
-
-  pointer-events:auto;
-
-}
-
-.profile{
-
-  display:flex;
-  align-items:center;
-
-  gap:14px;
-
-  margin-bottom:34px;
-
-}
-
-.avatar{
-
-  width:58px;
-  height:58px;
-
-  border-radius:50%;
-
-  background:var(--verde);
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  color:white;
-
-  font-size:26px;
-
-}
-
-.profile strong{
-  color:var(--verde);
-}
-
-.profile p{
-
-  font-size:12px;
-
-  color:#666;
-
-  margin-top:4px;
-
-}
-
-.menu{
-
-  display:flex;
-  flex-direction:column;
-
-  gap:12px;
-
-}
-
-.menu-item{
-
-  background:var(--crema);
-
-  padding:16px;
-
-  border-radius:18px;
-
-  font-weight:600;
-
-  transition:.2s;
-
+.map-point{
   cursor:pointer;
-
+  transition:.2s;
 }
 
-.menu-item:hover{
-  transform:translateX(5px);
+.map-point:hover{
+  transform:scale(1.2);
 }
 
 .toast{
-
   position:absolute;
-
-  left:50%;
   bottom:120px;
-
+  left:50%;
   transform:translateX(-50%);
-
   background:#111;
-
   color:white;
-
   padding:14px 18px;
-
-  border-radius:18px;
-
+  border-radius:16px;
   opacity:0;
-
   transition:.3s;
-
-  z-index:9999;
-
+  z-index:999;
 }
 
 .toast.show{
-
   opacity:1;
-
-  bottom:140px;
-
 }
 
-.emergency{
-
+.floating{
   position:absolute;
-
-  right:18px;
-  bottom:170px;
-
-  width:66px;
-  height:66px;
-
+  right:20px;
+  bottom:120px;
+  width:65px;
+  height:65px;
   border-radius:50%;
-
-  background:
-    linear-gradient(
-      135deg,
-      #FF6A3D,
-      #F44336
-    );
-
+  background:linear-gradient(135deg,#FF6A3D,#F44336);
+  color:white;
   display:flex;
   justify-content:center;
   align-items:center;
-
-  color:white;
-
   font-size:30px;
-
-  z-index:60;
-
   cursor:pointer;
-
-  box-shadow:
-    0 10px 30px rgba(255,90,40,.45);
-
-  animation:alert 2s infinite;
-
+  box-shadow:0 10px 25px rgba(255,80,50,.4);
 }
 
-@keyframes alert{
+.btn{
+  border:none;
+  padding:16px;
+  border-radius:18px;
+  font-weight:700;
+  cursor:pointer;
+}
 
-  50%{
-    transform:scale(1.06);
-  }
+.primary{
+  background:linear-gradient(135deg,var(--dorado),#E8C35A);
+}
 
+.secondary{
+  background:var(--verde);
+  color:white;
+}
+
+.panel{
+  background:white;
+  border-radius:22px;
+  padding:18px;
+  margin-top:16px;
+  box-shadow:var(--shadow);
+}
+
+.voice-circle{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:var(--dorado);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:50px;
+  margin:30px auto;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.voice-circle.active{
+  background:var(--rojo);
+  transform:scale(1.08);
+}
+
+.center{
+  text-align:center;
 }
 
 .dark{
-
-  --crema:#111;
-  --gris:#1C1C1C;
-  --texto:#fff;
-
+  filter:invert(.92) hue-rotate(180deg);
 }
 
 </style>
 </head>
-
 <body>
 
 <div class="phone">
 
-  <div
-    class="overlay"
-    id="overlay"
-    onclick="toggleSidebar()">
-  </div>
+  <!-- MAPA -->
+  <div class="screen active" id="mapa">
 
-  <div class="sidebar" id="sidebar">
+    <div class="header">
 
-    <div class="profile">
+      <div class="top">
 
-      <div class="avatar">
-        🚴
+        <div class="logo">
+          <div class="icon-btn" onclick="toggleTheme()">☰</div>
+          <h1>RutaJusta</h1>
+        </div>
+
+        <div class="status">
+          ● Offline activo
+        </div>
+
       </div>
 
-      <div>
-        <strong>Juan Camilo</strong>
-        <p>Estado físico estable</p>
-      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:40px">
+        Mapa 
+      </h2>
+
+      <p style="opacity:.7;margin-top:8px">
+        Navegación adaptativa inteligente
+      </p>
 
     </div>
 
-    <div class="menu">
+    <div class="map">
 
-      <div
-        class="menu-item"
-        onclick="showToast('Estadísticas abiertas')">
+      <svg viewBox="0 0 390 500">
 
-        📊 Estadísticas físicas
+        <rect width="390" height="500" fill="#284434"/>
 
-      </div>
+        <path
+          d="M190 440 Q170 320 210 60"
+          stroke="#4ADE80"
+          stroke-width="6"
+          fill="none"
+          stroke-linecap="round"
+        />
 
-      <div
-        class="menu-item"
-        onclick="showToast('Historial cargado')">
+        <circle
+          class="map-point"
+          cx="190"
+          cy="440"
+          r="10"
+          fill="#4ADE80"
+          onclick="pointAction('Inicio de ruta')"
+        />
 
-        🗺️ Historial de rutas
+        <circle
+          class="map-point"
+          cx="175"
+          cy="300"
+          r="9"
+          fill="#FFF"
+          stroke="#4ADE80"
+          stroke-width="3"
+          onclick="pointAction('Punto de descanso')"
+        />
 
-      </div>
+        <circle
+          class="map-point"
+          cx="210"
+          cy="60"
+          r="10"
+          fill="#D4A537"
+          onclick="pointAction('Entrega principal')"
+        />
 
-      <div
-        class="menu-item"
-        onclick="toggleDarkMode()">
+      </svg>
 
-        🌙 Cambiar tema
+      <div style="position:absolute;bottom:20px;left:20px;right:20px">
 
-      </div>
+        <div class="panel">
 
-      <div
-        class="menu-item"
-        onclick="showToast('Modo offline activo')">
+          <div style="display:flex;justify-content:space-between;align-items:center">
 
-        📡 Estado offline
+            <div>
+              <div class="route-name">
+                Ruta Corta
+              </div>
 
-      </div>
+              <div class="route-desc">
+                Menos distancia · Mayor pendiente
+              </div>
+            </div>
 
-      <div
-        class="menu-item"
-        onclick="resetFatigue()">
+            <div class="time">
+              <strong>12</strong><br>
+              <span>min</span>
+            </div>
 
-        ❤️ Reiniciar fatiga
+          </div>
 
-      </div>
+          <div class="stats">
 
-      <div
-        class="menu-item"
-        onclick="showToast(' adaptativa activa')">
+            <div class="stat">
+              <strong>1.4km</strong>
+              <small>Distancia</small>
+            </div>
 
-        🤖  adaptativa
+            <div class="stat">
+              <strong style="color:var(--rojo)">Alta</strong>
+              <small>Fatiga</small>
+            </div>
 
-      </div>
+            <div class="stat">
+              <strong>380cal</strong>
+              <small>Consumo</small>
+            </div>
 
-    </div>
+          </div>
 
-  </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
 
-  <div class="header">
+            <button class="btn primary" onclick="goTo('rutas')">
+              Ver rutas
+            </button>
 
-    <div class="top">
+            <button class="btn secondary" onclick="startRoute()">
+              Iniciar
+            </button>
 
-      <div class="logo">
-
-        <div
-          class="hamburger"
-          onclick="toggleSidebar()">
-
-          ☰
+          </div>
 
         </div>
 
-        <span>RutaJusta</span>
-
-      </div>
-
-      <div class="status">
-
-        <div class="dot"></div>
-
-        Offline activo
-
       </div>
 
     </div>
 
-    <div class="title">
-      Elige tu ruta
-    </div>
+    <div class="bottom-nav">
 
-    <div class="subtitle">
-      IA adaptativa basada en desgaste físico
-    </div>
+      <div class="nav-item active" onclick="goTo('mapa')">
+        🗺️
+        <span>Mapa</span>
+      </div>
 
-    <div class="ai-alert" id="aiText">
-
-      🤖 Se detectó aumento de ritmo cardíaco.
-      Recomendamos descanso corto.
-
-    </div>
-
-  </div>
-
-  <div class="tabs">
-
-    <div class="tab active">
-
-      <div class="tab-icon">
+      <div class="nav-item" onclick="goTo('rutas')">
         ⚡
+        <span>Rutas</span>
       </div>
 
-      <div class="tab-title">
-        Corta
+      <div class="nav-item" onclick="goTo('esfuerzo')">
+        💪
+        <span>Cuerpo</span>
       </div>
 
-    </div>
-
-    <div class="tab">
-
-      <div class="tab-icon">
-        ⛰️
-      </div>
-
-      <div class="tab-title">
-        Alta
-      </div>
-
-    </div>
-
-    <div class="tab">
-
-      <div class="tab-icon">
-        🛡️
-      </div>
-
-      <div class="tab-title">
-        Suave
-      </div>
-
-    </div>
-
-    <div class="tab">
-
-      <div class="tab-icon">
-        🍃
-      </div>
-
-      <div class="tab-title">
-        Media
+      <div class="nav-item" onclick="goTo('voz')">
+        🎙️
+        <span>Voz</span>
       </div>
 
     </div>
 
   </div>
 
-  <div class="content">
+  <!-- RUTAS -->
+  <div class="screen" id="rutas">
 
-    <div
-      class="card active"
-      onclick="selectCard(this,'Ruta Corta')">
-
-      <div class="check">
-        ✓
-      </div>
-
-      <div class="card-top">
-
-        <div class="route-info">
-
-          <div class="route-icon">
-            ⚡
-          </div>
-
-          <div>
-
-            <div class="route-name">
-              Corta
-            </div>
-
-            <div class="route-desc">
-              Menos distancia · Alta pendiente
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="time">
-
-          <strong>
-            12
-          </strong>
-
-          <br>
-
-          <span>
-            min
-          </span>
-
-        </div>
-
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <strong>
-            1.4km
-          </strong>
-
-          <small>
-            Distancia
-          </small>
-
-        </div>
-
-        <div class="stat">
-
-          <strong class="red">
-            Alto
-          </strong>
-
-          <small>
-            Esfuerzo
-          </small>
-
-        </div>
-
-        <div class="stat">
-
-          <strong>
-            380cal
-          </strong>
-
-          <small>
-            Calorías
-          </small>
-
-        </div>
-
-      </div>
-
+    <div class="header">
+      <h2 style="font-family:'Playfair Display',serif;font-size:38px">
+        Elegir ruta
+      </h2>
     </div>
 
-    <div
-      class="card"
-      onclick="selectCard(this,'Ruta Suave')">
+    <div class="content">
 
-      <div class="check"></div>
+      <div class="card active" onclick="selectCard(this,'Corta')">
 
-      <div class="card-top">
-
-        <div class="route-info">
-
-          <div class="route-icon">
-            🛡️
-          </div>
-
+        <div class="route-top">
           <div>
-
-            <div class="route-name">
-              Suave
-            </div>
-
-            <div class="route-desc">
-              Menor desgaste físico
-            </div>
-
+            <div class="route-name">⚡ Corta</div>
+            <div class="route-desc">Mayor esfuerzo</div>
           </div>
 
-        </div>
-
-        <div class="time">
-
-          <strong>
-            18
-          </strong>
-
-          <br>
-
-          <span>
-            min
-          </span>
-
+          <div class="time">
+            <strong>12</strong>
+            <span>min</span>
+          </div>
         </div>
 
       </div>
 
-      <div class="stats">
+      <div class="card" onclick="selectCard(this,'Suave')">
 
-        <div class="stat">
-
-          <strong>
-            2.1km
-          </strong>
-
-          <small>
-            Distancia
-          </small>
-
-        </div>
-
-        <div class="stat">
-
-          <strong class="green">
-            Bajo
-          </strong>
-
-          <small>
-            Esfuerzo
-          </small>
-
-        </div>
-
-        <div class="stat">
-
-          <strong>
-            210cal
-          </strong>
-
-          <small>
-            Calorías
-          </small>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div
-      class="card"
-      onclick="selectCard(this,'Ruta Media')">
-
-      <div class="check"></div>
-
-      <div class="card-top">
-
-        <div class="route-info">
-
-          <div class="route-icon">
-            🍃
-          </div>
-
+        <div class="route-top">
           <div>
-
-            <div class="route-name">
-              Media
-            </div>
-
-            <div class="route-desc">
-              Balance entre tiempo y esfuerzo
-            </div>
-
+            <div class="route-name">🛡️ Suave</div>
+            <div class="route-desc">Menor desgaste</div>
           </div>
 
-        </div>
-
-        <div class="time">
-
-          <strong>
-            22
-          </strong>
-
-          <br>
-
-          <span>
-            min
-          </span>
-
+          <div class="time">
+            <strong>18</strong>
+            <span>min</span>
+          </div>
         </div>
 
       </div>
 
-      <div class="stats">
+      <div class="card" onclick="selectCard(this,'Media')">
 
-        <div class="stat">
+        <div class="route-top">
+          <div>
+            <div class="route-name">🍃 Media</div>
+            <div class="route-desc">Balanceada</div>
+          </div>
 
-          <strong>
-            2.6km
-          </strong>
-
-          <small>
-            Distancia
-          </small>
-
-        </div>
-
-        <div class="stat">
-
-          <strong class="yellow">
-            Medio
-          </strong>
-
-          <small>
-            Esfuerzo
-          </small>
-
-        </div>
-
-        <div class="stat">
-
-          <strong>
-            260cal
-          </strong>
-
-          <small>
-            Calorías
-          </small>
-
+          <div class="time">
+            <strong>22</strong>
+            <span>min</span>
+          </div>
         </div>
 
       </div>
+
+      <button class="btn primary" style="width:100%" onclick="startRoute()">
+        Confirmar ruta
+      </button>
 
     </div>
 
   </div>
 
-  <div class="bottom-sheet" id="sheet">
+  <!-- ESFUERZO -->
+  <div class="screen" id="esfuerzo">
 
-    <div
-      class="sheet-handle"
-      onclick="toggleSheet()">
+    <div class="header">
+      <h2 style="font-family:'Playfair Display',serif;font-size:38px">
+        Estado físico
+      </h2>
     </div>
 
-    <div class="sheet-mini">
+    <div class="content center">
 
-      <div>
-        <h3>
-          Fatiga corporal
-        </h3>
+      <div class="voice-circle" onclick="simulateFatigue()">
+        💪
       </div>
 
-      <strong id="fatigueText">
-        24%
-      </strong>
+      <h2>Fatiga actual</h2>
+
+      <div
+        id="fatigue"
+        style="font-size:64px;font-weight:700;color:var(--rojo);margin:20px 0"
+      >
+        34%
+      </div>
+
+      <button class="btn secondary" onclick="recover()">
+        Recuperar energía
+      </button>
 
     </div>
 
-    <div class="bar">
-      <div class="fill" id="fill"></div>
+  </div>
+
+  <!-- VOZ -->
+  <div class="screen" id="voz">
+
+    <div class="header">
+      <h2 style="font-family:'Playfair Display',serif;font-size:38px">
+        Asistente voz
+      </h2>
     </div>
 
-    <div class="sheet-content">
+    <div class="content center">
 
-      <div class="weather">
-        🌧️ Terreno húmedo · Pendiente moderada
+      <div
+        class="voice-circle"
+        id="voiceBtn"
+        onclick="toggleVoice()"
+      >
+        🎙️
       </div>
 
-      <div class="quick-stats">
+      <h2 id="voiceText">
+        Modo escucha inactivo
+      </h2>
 
-        <div class="quick">
+      <div style="margin-top:30px">
 
-          <strong>
-            84
-          </strong>
-
-          <small>
-            Ritmo
-          </small>
-
-        </div>
-
-        <div class="quick">
-
-          <strong>
-            340
-          </strong>
-
-          <small>
-            Calorías
-          </small>
-
-        </div>
-
-        <div class="quick">
-
-          <strong>
-            2.1km
-          </strong>
-
-          <small>
-            Ruta
-          </small>
-
-        </div>
-
-      </div>
-
-      <div class="sheet-actions">
-
-        <button
-          class="modern-btn primary"
-          onclick="startRoute()">
-
-          Iniciar ruta optimizada →
-
-        </button>
-
-        <button
-          class="modern-btn secondary"
-          onclick="toggleVoice()">
-
-          🎙️ Activar modo voz
-
+        <button class="btn primary" onclick="speak('Ruta iniciada')">
+          Probar voz
         </button>
 
       </div>
@@ -1524,38 +595,12 @@ body{
 
   </div>
 
-  <div
-    class="emergency"
-    onclick="emergency()">
-
+  <!-- FLOAT -->
+  <div class="floating" onclick="emergency()">
     🚨
-
   </div>
 
-  <div class="nav">
-
-    <div class="nav-item active">
-      🗺️
-      <span>Mapa</span>
-    </div>
-
-    <div class="nav-item">
-      📦
-      <span>Entregas</span>
-    </div>
-
-    <div class="nav-item">
-      💪
-      <span>Esfuerzo</span>
-    </div>
-
-    <div class="nav-item">
-      📡
-      <span>Offline</span>
-    </div>
-
-  </div>
-
+  <!-- TOAST -->
   <div class="toast" id="toast">
     Mensaje
   </div>
@@ -1564,37 +609,29 @@ body{
 
 <script>
 
-let fatigue = 24;
-let selectedRoute = "Ruta Corta";
-let expanded = false;
-let voiceActive = false;
+let selectedRoute = "Corta";
+let fatigue = 34;
+let voice = false;
 
-const aiMessages = [
+function goTo(id){
 
-  "🤖 Detectamos terreno húmedo. Recomendamos disminuir velocidad.",
+  document
+    .querySelectorAll(".screen")
+    .forEach(s=>s.classList.remove("active"));
 
-  "🤖 Fatiga acumulada detectada. Ruta suave recomendada.",
+  document
+    .getElementById(id)
+    .classList.add("active");
 
-  "🤖 Pendiente elevada en los próximos 400 metros.",
+  updateNav(id);
 
-  "🤖 Ritmo cardiaco estable. Continúe la ruta."
+}
 
-];
+function updateNav(id){
 
-function showToast(text){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.innerHTML = text;
-
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-
-    toast.classList.remove("show");
-
-  },2200);
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(n=>n.classList.remove("active"));
 
 }
 
@@ -1608,83 +645,95 @@ function selectCard(card,name){
 
   selectedRoute = name;
 
-  showToast(name + " seleccionada");
-
-  saveHistory(name);
+  toast("Ruta " + name + " seleccionada");
 
 }
 
 function startRoute(){
 
-  showToast(
-    "Iniciando " + selectedRoute
-  );
+  toast("Iniciando ruta " + selectedRoute);
 
-  speak(
-    "Iniciando " + selectedRoute
-  );
-
-}
-
-function toggleSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.toggle("active");
-
-  document
-    .getElementById("overlay")
-    .classList.toggle("active");
-
-}
-
-function toggleSheet(){
-
-  expanded = !expanded;
-
-  document
-    .getElementById("sheet")
-    .classList.toggle("expanded");
-
-}
-
-function toggleVoice(){
-
-  voiceActive = !voiceActive;
-
-  if(voiceActive){
-
-    showToast(
-      "Modo voz activado"
-    );
-
-    speak(
-      "Modo voz activado"
-    );
-
-  }else{
-
-    showToast(
-      "Modo voz desactivado"
-    );
-
-  }
+  speak("Iniciando ruta " + selectedRoute);
 
 }
 
 function emergency(){
 
-  navigator.vibrate?.(
-    [150,80,150]
-  );
+  navigator.vibrate?.([200,100,200]);
 
-  showToast(
-    "🚨 Emergencia enviada"
-  );
+  toast("Emergencia enviada");
 
-  speak(
-    "Emergencia activada"
-  );
+  speak("Emergencia activada");
+
+}
+
+function toggleVoice(){
+
+  voice = !voice;
+
+  const btn =
+    document.getElementById("voiceBtn");
+
+  const text =
+    document.getElementById("voiceText");
+
+  btn.classList.toggle("active");
+
+  if(voice){
+
+    text.innerHTML =
+      "Escuchando comandos...";
+
+    speak("Modo voz activado");
+
+  }else{
+
+    text.innerHTML =
+      "Modo escucha inactivo";
+
+  }
+
+}
+
+function pointAction(name){
+
+  toast(name);
+
+  speak(name);
+
+}
+
+function simulateFatigue(){
+
+  fatigue += 8;
+
+  if(fatigue > 100){
+    fatigue = 100;
+  }
+
+  updateFatigue();
+
+}
+
+function recover(){
+
+  fatigue -= 10;
+
+  if(fatigue < 0){
+    fatigue = 0;
+  }
+
+  updateFatigue();
+
+  toast("Energía recuperada");
+
+}
+
+function updateFatigue(){
+
+  document
+    .getElementById("fatigue")
+    .innerHTML = fatigue + "%";
 
 }
 
@@ -1699,90 +748,42 @@ function speak(text){
 
 }
 
-function resetFatigue(){
+function toast(text){
 
-  fatigue = 15;
+  const t =
+    document.getElementById("toast");
 
-  updateFatigue();
+  t.innerHTML = text;
 
-  showToast(
-    "Fatiga reiniciada"
-  );
+  t.classList.add("show");
+
+  setTimeout(()=>{
+
+    t.classList.remove("show");
+
+  },2000);
 
 }
 
-function updateFatigue(){
+function toggleTheme(){
+
+  document.body.classList.toggle("dark");
+
+  toast("Tema actualizado");
+
+}
+
+setInterval(()=>{
+
+  fatigue++;
 
   if(fatigue > 100){
     fatigue = 100;
   }
 
-  document
-    .getElementById("fatigueText")
-    .innerHTML = fatigue + "%";
-
-  document
-    .getElementById("fill")
-    .style.width = fatigue + "%";
-
-}
-
-function saveHistory(route){
-
-  let history =
-    JSON.parse(
-      localStorage.getItem("routes")
-    ) || [];
-
-  history.push({
-
-    route,
-
-    date:
-      new Date().toLocaleString()
-
-  });
-
-  localStorage.setItem(
-    "routes",
-    JSON.stringify(history)
-  );
-
-}
-
-function toggleDarkMode(){
-
-  document.body.classList.toggle("dark");
-
-  showToast(
-    "Tema actualizado"
-  );
-
-}
-
-setInterval(()=>{
-
-  fatigue +=
-    Math.floor(Math.random()*3);
-
   updateFatigue();
 
-},5000);
-
-setInterval(()=>{
-
-  const random =
-    aiMessages[
-      Math.floor(
-        Math.random()*aiMessages.length
-      )
-    ];
-
-  document
-    .getElementById("aiText")
-    .innerHTML = random;
-
-},7000);
+},10000);
 
 </script>
 
