@@ -1,331 +1,58 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
 <title>Ruta Justa</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
-  --bg:#F4F1EA;
-  --green:#11382D;
-  --green2:#1E5844;
-  --gold:#D4A537;
-  --text:#18211D;
-  --soft:#EFE8DD;
-  --card:#FFFFFF;
-  --danger:#E35B38;
-  --shadow:0 12px 40px rgba(0,0,0,.08);
+  --verde-oscuro:#1B3A2D;
+  --verde-medio:#2D5A40;
+  --dorado:#C8962A;
+  --crema:#F5F0E8;
+  --cafe:#8B6340;
+  --blanco:#FFFFFF;
+  --gris:#E8E2D6;
+  --rojo:#E85A2A;
+  --negro:#0A0A0A;
 }
 
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  background:#0F1110;
-  height:100vh;
+  background:var(--negro);
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:'Inter',sans-serif;
+  font-family:'DM Sans',sans-serif;
+  overflow:hidden;
 }
 
 .phone{
   width:390px;
   height:844px;
-  background:var(--bg);
+  background:var(--crema);
   border-radius:42px;
   overflow:hidden;
   position:relative;
-  box-shadow:0 30px 90px rgba(0,0,0,.4);
-}
-
-.header{
-  background:linear-gradient(135deg,var(--green),#0B221C);
-  color:white;
-  padding:60px 24px 28px;
-  position:relative;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:28px;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:30px;
-}
-
-.logo span{
-  font-family:'Playfair Display',serif;
-  font-size:34px;
-}
-
-.status{
-  background:rgba(255,255,255,.12);
-  padding:8px 14px;
-  border-radius:30px;
-  font-size:12px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  backdrop-filter:blur(10px);
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#4ADE80;
-}
-
-.title{
-  font-family:'Playfair Display',serif;
-  font-size:42px;
-  line-height:1;
-  margin-bottom:10px;
-}
-
-.subtitle{
-  opacity:.7;
-  font-size:15px;
-}
-
-.route-tabs{
-  display:flex;
-  gap:10px;
-  padding:18px 20px;
-  overflow-x:auto;
-}
-
-.tab{
-  min-width:90px;
-  background:white;
-  border-radius:18px;
-  padding:14px 10px;
-  text-align:center;
-  box-shadow:var(--shadow);
-  border:2px solid transparent;
-  transition:.2s;
-}
-
-.tab.active{
-  border-color:var(--gold);
-  background:#FFF9EC;
-}
-
-.tab-icon{
-  font-size:22px;
-  margin-bottom:6px;
-}
-
-.tab-title{
-  font-size:13px;
-  font-weight:700;
-}
-
-.content{
-  padding:0 20px 140px;
-  overflow:auto;
-  height:calc(100% - 250px);
-}
-
-.card{
-  background:white;
-  border-radius:28px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:var(--shadow);
-  position:relative;
-}
-
-.card.active{
-  border:2px solid var(--green2);
-}
-
-.card-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  margin-bottom:18px;
-}
-
-.route-info{
-  display:flex;
-  gap:14px;
-}
-
-.route-icon{
-  width:56px;
-  height:56px;
-  border-radius:18px;
-  background:#EEF6F2;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:26px;
-}
-
-.route-name{
-  font-family:'Playfair Display',serif;
-  font-size:32px;
-  color:var(--green);
-}
-
-.route-desc{
-  font-size:13px;
-  color:#666;
-  margin-top:4px;
-}
-
-.time{
-  text-align:right;
-}
-
-.time strong{
-  font-size:36px;
-  color:var(--green);
-}
-
-.time span{
-  font-size:13px;
-  color:#777;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.stat{
-  background:var(--soft);
-  border-radius:16px;
-  padding:14px 10px;
-  text-align:center;
-}
-
-.stat strong{
-  display:block;
-  font-size:20px;
-  margin-bottom:4px;
-  color:var(--green);
-}
-
-.stat small{
-  font-size:11px;
-  color:#666;
-  text-transform:uppercase;
-}
-
-.warning{
-  color:var(--danger)!important;
-}
-
-.medium{
-  color:#B98100!important;
-}
-
-.low{
-  color:#1F8F58!important;
-}
-
-.floating-panel{
-  position:absolute;
-  bottom:100px;
-  left:20px;
-  right:20px;
-  background:rgba(17,56,45,.95);
-  backdrop-filter:blur(12px);
-  border-radius:28px;
-  padding:18px;
-  color:white;
-  box-shadow:0 20px 60px rgba(0,0,0,.2);
-}
-
-.fatigue{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-
-.fatigue-title{
-  font-size:13px;
-  opacity:.7;
-}
-
-.fatigue-percent{
-  font-size:28px;
-  font-weight:700;
-}
-
-.bar{
-  height:10px;
-  background:rgba(255,255,255,.15);
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.fill{
-  width:72%;
-  height:100%;
-  background:linear-gradient(90deg,#FACC15,#F97316,#EF4444);
-}
-
-.start-btn{
-  margin-top:16px;
-  width:100%;
-  background:linear-gradient(135deg,var(--gold),#E7BB54);
-  border:none;
-  color:#1C1C1C;
-  padding:18px;
-  border-radius:18px;
-  font-size:16px;
-  font-weight:700;
-}
-
-.nav{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  background:white;
-  display:flex;
-  justify-content:space-around;
-  padding:16px 0 26px;
-  border-top:1px solid #E7E1D6;
-}
-
-.nav-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-  font-size:11px;
-  color:#777;
-}
-
-.nav-item.active{
-  color:var(--green);
-  font-weight:700;
+  box-shadow:0 30px 100px rgba(0,0,0,.45);
 }
 
 @media(max-width:420px){
 
   body{
-    background:var(--bg);
+    background:var(--crema);
   }
 
   .phone{
@@ -336,6 +63,540 @@ body{
 
 }
 
+.screen{
+  position:absolute;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  opacity:0;
+  transition:.35s ease;
+}
+
+.screen.active{
+  display:flex;
+  opacity:1;
+}
+
+.status-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 20px 10px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.offline-badge{
+  background:rgba(255,255,255,.08);
+  padding:7px 12px;
+  border-radius:30px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  background:#4ADE80;
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    opacity:.3;
+  }
+}
+
+button{
+  border:none;
+  cursor:pointer;
+  transition:.2s ease;
+  font-family:'DM Sans',sans-serif;
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+/* SPLASH */
+
+#splash{
+  background:linear-gradient(135deg,var(--verde-oscuro),#10261D);
+  justify-content:center;
+  align-items:center;
+  gap:28px;
+  text-align:center;
+}
+
+.splash-icon{
+  font-size:72px;
+}
+
+.splash-title{
+  font-family:'Playfair Display',serif;
+  font-size:52px;
+  color:white;
+  line-height:1;
+}
+
+.splash-title span{
+  color:var(--dorado);
+}
+
+.splash-sub{
+  color:rgba(255,255,255,.6);
+  font-size:14px;
+  margin-top:10px;
+}
+
+.start-app-btn{
+  background:var(--dorado);
+  color:var(--verde-oscuro);
+  padding:18px 42px;
+  border-radius:22px;
+  font-weight:700;
+  font-size:16px;
+  box-shadow:0 10px 30px rgba(200,150,42,.35);
+}
+
+/* MAPA */
+
+#mapa{
+  background:var(--crema);
+}
+
+.mapa-header{
+  padding:10px 20px 18px;
+}
+
+.mapa-title{
+  font-family:'Playfair Display',serif;
+  font-size:30px;
+  color:var(--verde-oscuro);
+}
+
+.mapa-sub{
+  color:var(--cafe);
+  font-size:13px;
+  margin-top:4px;
+}
+
+.map-area{
+  flex:1;
+  position:relative;
+  background:linear-gradient(180deg,#35503A,#1B2E20);
+  overflow:hidden;
+}
+
+.fake-map{
+  position:absolute;
+  inset:0;
+}
+
+.fake-map::before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background:rgba(255,255,255,.04);
+  top:60px;
+  left:-60px;
+}
+
+.fake-map::after{
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  background:rgba(255,255,255,.03);
+  bottom:40px;
+  right:-40px;
+}
+
+.route-line{
+  position:absolute;
+  width:5px;
+  height:320px;
+  background:#4ADE80;
+  left:50%;
+  top:70px;
+  transform:translateX(-50%) rotate(12deg);
+  border-radius:30px;
+  box-shadow:0 0 20px rgba(74,222,128,.5);
+}
+
+.route-pin{
+  position:absolute;
+  width:18px;
+  height:18px;
+  background:var(--dorado);
+  border-radius:50%;
+  border:4px solid white;
+}
+
+.pin-1{
+  top:90px;
+  left:52%;
+}
+
+.pin-2{
+  top:230px;
+  left:44%;
+}
+
+.pin-3{
+  bottom:110px;
+  left:50%;
+  background:#4ADE80;
+}
+
+.fatigue{
+  position:absolute;
+  top:18px;
+  right:18px;
+  background:rgba(0,0,0,.4);
+  backdrop-filter:blur(10px);
+  color:white;
+  padding:10px 14px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.map-overlay{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:24px 20px 30px;
+  background:linear-gradient(transparent,rgba(0,0,0,.82));
+}
+
+.location{
+  color:rgba(255,255,255,.7);
+  font-size:12px;
+  margin-bottom:6px;
+}
+
+.location-title{
+  color:white;
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  margin-bottom:18px;
+}
+
+.route-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.route-btn{
+  padding:16px;
+  border-radius:18px;
+  font-weight:700;
+  font-size:15px;
+}
+
+.route-btn.primary{
+  background:var(--dorado);
+  color:var(--verde-oscuro);
+}
+
+.route-btn.secondary{
+  background:rgba(255,255,255,.12);
+  color:white;
+  border:1px solid rgba(255,255,255,.2);
+}
+
+/* ELEGIR */
+
+#elegir{
+  background:var(--crema);
+}
+
+.header-dark{
+  background:var(--verde-oscuro);
+  color:white;
+  padding:14px 20px 24px;
+}
+
+.back{
+  background:none;
+  color:var(--dorado);
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+.header-title{
+  font-family:'Playfair Display',serif;
+  font-size:30px;
+}
+
+.header-sub{
+  opacity:.7;
+  margin-top:6px;
+  font-size:13px;
+}
+
+.routes{
+  flex:1;
+  overflow:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:26px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.06);
+  border:2px solid transparent;
+  transition:.25s ease;
+  cursor:pointer;
+}
+
+.card.selected{
+  border-color:var(--dorado);
+}
+
+.card:hover{
+  transform:translateY(-3px);
+}
+
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:18px;
+}
+
+.route-left{
+  display:flex;
+  gap:14px;
+}
+
+.route-icon{
+  width:56px;
+  height:56px;
+  border-radius:16px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28px;
+  background:rgba(200,150,42,.12);
+}
+
+.route-name{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  color:var(--verde-oscuro);
+}
+
+.route-desc{
+  color:var(--cafe);
+  font-size:13px;
+  margin-top:4px;
+}
+
+.route-time{
+  text-align:right;
+}
+
+.route-time strong{
+  font-size:34px;
+  color:var(--verde-oscuro);
+}
+
+.route-time span{
+  font-size:12px;
+  color:#777;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.stat{
+  background:var(--crema);
+  border-radius:14px;
+  padding:12px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  color:var(--verde-oscuro);
+  margin-bottom:4px;
+}
+
+.stat small{
+  font-size:10px;
+  color:#777;
+  text-transform:uppercase;
+}
+
+.start-route{
+  margin:0 20px 20px;
+  background:var(--verde-oscuro);
+  color:white;
+  padding:18px;
+  border-radius:18px;
+  font-size:16px;
+  font-weight:700;
+}
+
+/* ESFUERZO */
+
+#esfuerzo{
+  background:var(--negro);
+  color:white;
+}
+
+.esfuerzo-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  gap:28px;
+}
+
+.circle{
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle,rgba(232,90,42,.3),rgba(232,90,42,.08));
+  border:3px solid var(--rojo);
+  box-shadow:0 0 50px rgba(232,90,42,.4);
+}
+
+.circle-icon{
+  font-size:50px;
+}
+
+.circle-text{
+  margin-top:10px;
+  font-weight:700;
+  letter-spacing:.08em;
+}
+
+.alert-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  text-align:center;
+}
+
+.alert-sub{
+  color:rgba(255,255,255,.6);
+  text-align:center;
+  line-height:1.5;
+}
+
+.metrics{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.metric{
+  background:rgba(255,255,255,.06);
+  border-radius:18px;
+  padding:16px;
+}
+
+.metric strong{
+  font-size:28px;
+}
+
+.metric span{
+  display:block;
+  margin-top:4px;
+  color:rgba(255,255,255,.5);
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+.voice-btn{
+  background:rgba(255,255,255,.08);
+  color:white;
+  padding:16px 24px;
+  border-radius:40px;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+/* NAV */
+
+.nav{
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0 24px;
+  background:white;
+  border-top:1px solid var(--gris);
+}
+
+.nav.dark{
+  background:rgba(255,255,255,.05);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  cursor:pointer;
+  color:#777;
+}
+
+.nav-item.active{
+  color:var(--verde-oscuro);
+  font-weight:700;
+  transform:translateY(-2px);
+}
+
+.nav.dark .nav-item{
+  color:rgba(255,255,255,.4);
+}
+
+.nav.dark .nav-item.active{
+  color:var(--dorado);
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%) translateY(30px);
+  background:#111;
+  color:white;
+  padding:14px 18px;
+  border-radius:14px;
+  opacity:0;
+  transition:.3s;
+  z-index:9999;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
 </style>
 </head>
 
@@ -343,248 +604,507 @@ body{
 
 <div class="phone">
 
-  <div class="header">
+  <!-- SPLASH -->
 
-    <div class="topbar">
-      <div class="logo">
-        📍
-        <span>Rutajusta</span>
+  <div class="screen active" id="splash">
+
+    <div class="splash-icon">⛰️</div>
+
+    <div>
+      <div class="splash-title">
+        RUTA <span>JUSTA</span>
       </div>
 
-      <div class="status">
-        <div class="dot"></div>
-        Offline activo
-      </div>
-    </div>
-
-    <div class="title">
-      Elige tu ruta
-    </div>
-
-    <div class="subtitle">
-      Optimizada por esfuerzo físico y terreno real
-    </div>
-
-  </div>
-
-  <div class="route-tabs">
-
-    <div class="tab active">
-      <div class="tab-icon">⚡</div>
-      <div class="tab-title">Corta</div>
-    </div>
-
-    <div class="tab">
-      <div class="tab-icon">⛰️</div>
-      <div class="tab-title">Alta</div>
-    </div>
-
-    <div class="tab">
-      <div class="tab-icon">🛡️</div>
-      <div class="tab-title">Suave</div>
-    </div>
-
-    <div class="tab">
-      <div class="tab-icon">🍃</div>
-      <div class="tab-title">Media</div>
-    </div>
-
-  </div>
-
-  <div class="content">
-
-    <div class="card active">
-
-      <div class="card-top">
-
-        <div class="route-info">
-
-          <div class="route-icon">
-            ⚡
-          </div>
-
-          <div>
-            <div class="route-name">Corta</div>
-            <div class="route-desc">
-              Menos distancia · Mayor pendiente
-            </div>
-          </div>
-
-        </div>
-
-        <div class="time">
-          <strong>12</strong><br>
-          <span>min</span>
-        </div>
-
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong>1.4km</strong>
-          <small>Distancia</small>
-        </div>
-
-        <div class="stat">
-          <strong class="warning">Alto</strong>
-          <small>Esfuerzo</small>
-        </div>
-
-        <div class="stat">
-          <strong>380cal</strong>
-          <small>Calorías</small>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div class="card-top">
-
-        <div class="route-info">
-
-          <div class="route-icon">
-            🛡️
-          </div>
-
-          <div>
-  <div class="route-name">Suave</div>
-            <div class="route-desc">
-              Más distancia · Menor desgaste
-            </div>
-          </div>
-
-        </div>
-
-        <div class="time">
-          <strong>18</strong><br>
-          <span>min</span>
-        </div>
-
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong>2.1km</strong>
-          <small>Distancia</small>
-        </div>
-
-        <div class="stat">
-          <strong class="medium">Medio</strong>
-          <small>Esfuerzo</small>
-        </div>
-
-        <div class="stat">
-          <strong>210cal</strong>
-          <small>Calorías</small>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div class="card-top">
-
-        <div class="route-info">
-
-          <div class="route-icon">
-            🍃
-          </div>
-
-          <div>
-            <div class="route-name">Media</div>
-            <div class="route-desc">
-              Balance entre tiempo y esfuerzo
-            </div>
-          </div>
-
-        </div>
-
-        <div class="time">
-          <strong>22</strong><br>
-          <span>min</span>
-        </div>
-
-      </div>
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong>2.6km</strong>
-          <small>Distancia</small>
-        </div>
-
-        <div class="stat">
-          <strong class="low">Bajo</strong>
-          <small>Esfuerzo</small>
-        </div>
-
-        <div class="stat">
-          <strong>260cal</strong>
-          <small>Calorías</small>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="floating-panel">
-
-    <div class="fatigue">
-      <div>
-        <div class="fatigue-title">
-          Fatiga corporal estimada
-        </div>
-      </div>
-
-      <div class="fatigue-percent">
-        72%
+      <div class="splash-sub">
+        Tecnología que acompaña, no distrae
       </div>
     </div>
 
-    <div class="bar">
-      <div class="fill"></div>
-    </div>
-
-    <button class="start-btn">
-      Iniciar ruta optimizada →
+    <button class="start-app-btn" onclick="showScreen('mapa')">
+      Comenzar jornada
     </button>
 
   </div>
 
-  <div class="nav">
+  <!-- MAPA -->
 
-    <div class="nav-item active">
-      🗺️
-      <span>Mapa</span>
+  <div class="screen" id="mapa">
+
+    <div class="status-bar" style="background:var(--crema); color:var(--verde-oscuro);">
+
+      <div>9:31</div>
+
+      <div class="offline-badge">
+        <div class="dot"></div>
+        Offline activo
+      </div>
+
+      <div>☰</div>
+
     </div>
 
-    <div class="nav-item">
-      📦
-      <span>Entregas</span>
+    <div class="mapa-header">
+
+      <div class="mapa-title">
+        Mapa de Ruta
+      </div>
+
+      <div class="mapa-sub">
+        Santa Elena · 3 entregas
+      </div>
+
     </div>
 
-    <div class="nav-item">
-      💪
-      <span>Esfuerzo</span>
+    <div class="map-area">
+
+      <div class="fake-map">
+        <div class="route-line"></div>
+
+        <div class="route-pin pin-1"></div>
+        <div class="route-pin pin-2"></div>
+        <div class="route-pin pin-3"></div>
+      </div>
+
+      <div class="fatigue">
+        💪 Fatiga 34%
+      </div>
+
+      <div class="map-overlay">
+
+        <div class="location">
+          📍 Tu ubicación
+        </div>
+
+        <div class="location-title">
+          Vereda San Miguel
+        </div>
+
+        <div class="route-buttons">
+
+          <button class="route-btn primary" onclick="goChoose('corta')">
+            ⚡ Ruta corta
+          </button>
+
+          <button class="route-btn secondary" onclick="goChoose('suave')">
+            🛡️ Ruta suave
+          </button>
+
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="nav-item">
-      📡
-      <span>Offline</span>
+    <div class="nav">
+
+      <div class="nav-item active" onclick="showScreen('mapa')">
+        🗺️
+        <span>Mapa</span>
+      </div>
+
+      <div class="nav-item" onclick="showScreen('elegir')">
+        📦
+        <span>Entregas</span>
+      </div>
+
+      <div class="nav-item" onclick="showScreen('esfuerzo')">
+        💪
+        <span>Cuerpo</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ELEGIR -->
+
+  <div class="screen" id="elegir">
+
+    <div class="header-dark">
+
+      <button class="back" onclick="showScreen('mapa')">
+        ←
+      </button>
+
+      <div class="header-title">
+        Elige tu ruta
+      </div>
+
+      <div class="header-sub">
+        Optimizada por esfuerzo físico
+      </div>
+
+    </div>
+
+    <div class="routes">
+
+      <div class="card selected" data-route="corta" onclick="selectRoute('corta',this)">
+
+        <div class="card-top">
+
+          <div class="route-left">
+
+            <div class="route-icon">
+              ⚡
+            </div>
+
+            <div>
+
+              <div class="route-name">
+                Corta
+              </div>
+
+              <div class="route-desc">
+                Menos distancia · Mayor pendiente
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="route-time">
+            <strong>12</strong><br>
+            <span>min</span>
+          </div>
+
+        </div>
+
+        <div class="stats">
+
+          <div class="stat">
+            <strong>1.4km</strong>
+            <small>Distancia</small>
+          </div>
+
+          <div class="stat">
+            <strong style="color:var(--rojo)">Alto</strong>
+            <small>Esfuerzo</small>
+          </div>
+
+          <div class="stat">
+            <strong>380cal</strong>
+            <small>Calorías</small>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card" data-route="suave" onclick="selectRoute('suave',this)">
+
+        <div class="card-top">
+
+          <div class="route-left">
+
+            <div class="route-icon">
+              🛡️
+            </div>
+
+            <div>
+
+              <div class="route-name">
+                Suave
+              </div>
+
+              <div class="route-desc">
+                Más distancia · Menos desgaste
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="route-time">
+            <strong>18</strong><br>
+            <span>min</span>
+          </div>
+
+        </div>
+
+        <div class="stats">
+
+          <div class="stat">
+            <strong>2.1km</strong>
+            <small>Distancia</small>
+          </div>
+
+          <div class="stat">
+            <strong style="color:var(--dorado)">Medio</strong>
+            <small>Esfuerzo</small>
+          </div>
+
+          <div class="stat">
+            <strong>210cal</strong>
+            <small>Calorías</small>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <button class="start-route" onclick="startRoute()">
+      Iniciar ruta →
+    </button>
+
+  </div>
+
+  <!-- ESFUERZO -->
+
+  <div class="screen" id="esfuerzo">
+
+    <div class="status-bar" style="color:white;">
+
+      <div>9:31</div>
+
+      <div class="offline-badge">
+        <div class="dot"></div>
+        Offline activo
+      </div>
+
+      <div>☰</div>
+
+    </div>
+
+    <div class="esfuerzo-body">
+
+      <div class="circle">
+
+        <div class="circle-icon">
+          🏃
+        </div>
+
+        <div class="circle-text" id="effortText">
+          Alto esfuerzo
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="alert-title">
+          Recomendado descansar pronto
+        </div>
+
+        <div class="alert-sub">
+          La pendiente continua está aumentando<br>
+          el desgaste físico estimado.
+        </div>
+
+      </div>
+
+      <div class="metrics">
+
+        <div class="metric">
+          <strong>84</strong>
+          <span>Ritmo cardiaco</span>
+        </div>
+
+        <div class="metric">
+          <strong>340</strong>
+          <span>Calorías</span>
+        </div>
+
+        <div class="metric">
+          <strong>78%</strong>
+          <span>Fatiga lumbar</span>
+        </div>
+
+        <div class="metric">
+          <strong>1.2km</strong>
+          <span>Recorrido</span>
+        </div>
+
+      </div>
+
+      <button class="voice-btn" onclick="toggleVoice(this)">
+        🎙️ Activar modo voz
+      </button>
+
+    </div>
+
+    <div class="nav dark">
+
+      <div class="nav-item" onclick="showScreen('mapa')">
+        🗺️
+        <span>Mapa</span>
+      </div>
+
+      <div class="nav-item" onclick="showScreen('elegir')">
+        📦
+        <span>Entregas</span>
+      </div>
+
+      <div class="nav-item active">
+        💪
+        <span>Cuerpo</span>
+      </div>
+
     </div>
 
   </div>
 
 </div>
+
+<script>
+
+let selectedRoute = "corta";
+
+const routes = {
+
+  corta:{
+    effort:"Alto esfuerzo"
+  },
+
+  suave:{
+    effort:"Esfuerzo moderado"
+  }
+
+};
+
+function showScreen(id){
+
+  document.querySelectorAll(".screen").forEach(screen=>{
+
+    screen.classList.remove("active");
+    screen.style.display = "none";
+
+  });
+
+  const target = document.getElementById(id);
+
+  target.style.display = "flex";
+
+  requestAnimationFrame(()=>{
+
+    target.classList.add("active");
+
+  });
+
+}
+
+function goChoose(route){
+
+  selectedRoute = route;
+
+  updateRouteUI();
+
+  showScreen("elegir");
+
+}
+
+function selectRoute(route,element){
+
+  selectedRoute = route;
+
+  document.querySelectorAll(".card").forEach(card=>{
+
+    card.classList.remove("selected");
+
+  });
+
+  element.classList.add("selected");
+
+  updateRouteUI();
+
+  toast(`Ruta ${route} seleccionada`);
+
+}
+
+function updateRouteUI(){
+
+  const text = document.getElementById("effortText");
+
+  text.innerHTML = routes[selectedRoute].effort;
+
+}
+
+function startRoute(){
+
+  toast("Iniciando ruta optimizada");
+
+  setTimeout(()=>{
+
+    showScreen("esfuerzo");
+
+  },700);
+
+}
+
+function toggleVoice(btn){
+
+  const active = btn.dataset.active === "1";
+
+  if(!active){
+
+    btn.dataset.active = "1";
+
+    btn.innerHTML = "⏹️ Desactivar modo voz";
+
+    btn.style.background = "var(--rojo)";
+
+    toast("Modo voz activado");
+
+    navigator.vibrate?.([100,50,100]);
+
+  }else{
+
+    btn.dataset.active = "0";
+
+    btn.innerHTML = "🎙️ Activar modo voz";
+
+    btn.style.background = "rgba(255,255,255,.08)";
+
+    toast("Modo voz desactivado");
+
+  }
+
+}
+
+function toast(message){
+
+  const old = document.querySelector(".toast");
+
+  if(old){
+    old.remove();
+  }
+
+  const el = document.createElement("div");
+
+  el.className = "toast";
+
+  el.innerHTML = message;
+
+  document.body.appendChild(el);
+
+  requestAnimationFrame(()=>{
+
+    el.classList.add("show");
+
+  });
+
+  setTimeout(()=>{
+
+    el.classList.remove("show");
+
+    setTimeout(()=>{
+
+      el.remove();
+
+    },300);
+
+  },2000);
+
+}
+
+window.onload = ()=>{
+
+  showScreen("splash");
+
+};
+
+</script>
 
 </body>
 </html>
